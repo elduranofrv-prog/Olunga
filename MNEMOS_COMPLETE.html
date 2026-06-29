@@ -1,0 +1,3091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MNEMOS — The Global Memory Bank</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+/* ════════════════════════════════════════════════════
+   MNEMOS — GLOBAL MEMORY BANK
+   Design System: Obsidian + Parchment + Recall Blue
+   Typography: Playfair Display / Inter / Courier Prime
+   ════════════════════════════════════════════════════ */
+
+:root {
+  --obsidian: #0A0A0F;
+  --deep-void: #0D0D14;
+  --ink: #12121A;
+  --parchment: #E8DCC8;
+  --parchment-dim: #C8BAAA;
+  --amber: #C9803A;
+  --amber-glow: #E09444;
+  --recall: #4A9EFF;
+  --recall-dim: #2A7EDD;
+  --ghost: #F5F3EE;
+  --ghost-dim: #D5D0C5;
+  --card-bg: rgba(255,255,255,0.04);
+  --card-border: rgba(255,255,255,0.08);
+  --amber-bg: rgba(201,128,58,0.08);
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Courier Prime', 'Courier New', monospace;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--obsidian);
+  color: var(--parchment);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── NEURAL CANVAS ─── */
+#neural-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+}
+
+/* ─── NAV ─── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 70px;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--card-border);
+  transition: all 0.3s var(--ease-out);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.logo-m {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--amber);
+  letter-spacing: -1px;
+  line-height: 1;
+  text-shadow: 0 0 30px rgba(201,128,58,0.5);
+}
+
+.logo-rest {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ghost);
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.logo-tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-left: 12px;
+  margin-bottom: 2px;
+  opacity: 0.7;
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.nav-link {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--parchment-dim);
+  text-decoration: none;
+  letter-spacing: 0.3px;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+
+.nav-link:hover {
+  color: var(--ghost);
+}
+
+.nav-cta {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--obsidian);
+  background: var(--amber);
+  border: none;
+  border-radius: 6px;
+  padding: 9px 18px;
+  cursor: pointer;
+  letter-spacing: 0.2px;
+  transition: all 0.2s;
+}
+
+.nav-cta:hover {
+  background: var(--amber-glow);
+  transform: translateY(-1px);
+}
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 24px 80px;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  opacity: 0.8;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 8vw, 108px);
+  font-weight: 900;
+  line-height: 1.0;
+  letter-spacing: -2px;
+  color: var(--ghost);
+  margin-bottom: 24px;
+  text-shadow: 0 4px 40px rgba(0,0,0,0.8);
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--amber);
+  text-shadow: 0 0 60px rgba(201,128,58,0.4);
+}
+
+.hero-title-sub {
+  font-size: 0.5em;
+  font-weight: 400;
+  color: var(--parchment-dim);
+  display: block;
+  font-style: normal;
+  letter-spacing: 2px;
+  margin-top: 12px;
+}
+
+.hero-body {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--parchment-dim);
+  max-width: 560px;
+  margin: 0 auto 48px;
+  font-weight: 400;
+}
+
+/* ─── SEARCH UNIVERSE ─── */
+.search-universe {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto 48px;
+}
+
+.search-shell {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.06);
+  border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 14px;
+  padding: 6px 6px 6px 16px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: all 0.3s var(--ease-out);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4), 0 0 0 0 rgba(74,158,255,0);
+}
+
+.search-shell:focus-within {
+  border-color: var(--recall);
+  background: rgba(74,158,255,0.06);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4), 0 0 0 4px rgba(74,158,255,0.15);
+}
+
+.search-icon {
+  color: var(--parchment-dim);
+  margin-right: 10px;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.search-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 17px;
+  color: var(--ghost);
+  padding: 12px 0;
+  letter-spacing: 0.1px;
+}
+
+.search-input::placeholder {
+  color: rgba(200, 186, 170, 0.45);
+}
+
+.search-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--amber);
+  border: none;
+  border-radius: 10px;
+  padding: 12px 22px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--obsidian);
+  letter-spacing: 0.2px;
+  transition: all 0.2s;
+}
+
+.search-btn:hover {
+  background: var(--amber-glow);
+  transform: translateX(2px);
+}
+
+.search-btn-arrow {
+  transition: transform 0.2s;
+}
+
+.search-btn:hover .search-btn-arrow {
+  transform: translateX(4px);
+}
+
+.search-suggestions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+  justify-content: center;
+}
+
+.suggestion-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--parchment-dim);
+  opacity: 0.6;
+  text-transform: uppercase;
+}
+
+.suggestion-chip {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--parchment);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: 5px 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.suggestion-chip:hover {
+  background: rgba(201,128,58,0.15);
+  border-color: var(--amber);
+  color: var(--amber);
+}
+
+/* ─── PULSE RINGS ─── */
+.pulse-rings {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ring {
+  position: absolute;
+  border: 1px solid var(--recall);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+
+.ring-1 { width: 200px; height: 200px; }
+.ring-2 { width: 360px; height: 360px; }
+.ring-3 { width: 540px; height: 540px; }
+.ring-4 { width: 720px; height: 720px; }
+
+.pulse-rings.active .ring {
+  animation: pulse-ring 1.8s var(--ease-out) forwards;
+}
+
+.pulse-rings.active .ring-1 { animation-delay: 0s; }
+.pulse-rings.active .ring-2 { animation-delay: 0.15s; }
+.pulse-rings.active .ring-3 { animation-delay: 0.3s; }
+.pulse-rings.active .ring-4 { animation-delay: 0.45s; }
+
+@keyframes pulse-ring {
+  0% { opacity: 0.8; transform: translate(-50%, -50%) scale(0.3); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* ─── HERO STATS ─── */
+.hero-stats {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-top: 24px;
+}
+
+.stat-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--ghost);
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--parchment-dim);
+  opacity: 0.7;
+  text-transform: uppercase;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 40px;
+  background: var(--card-border);
+}
+
+/* ─── RESULTS SECTION ─── */
+.results-section {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  padding: 100px 40px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.results-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.crumb-home {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--amber);
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.crumb-home:hover {
+  text-decoration: underline;
+}
+
+.crumb-sep {
+  color: var(--parchment-dim);
+  opacity: 0.4;
+}
+
+.crumb-query {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--parchment-dim);
+  text-transform: uppercase;
+}
+
+.results-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 700;
+  color: var(--ghost);
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+}
+
+.results-subtitle {
+  font-size: 15px;
+  color: var(--parchment-dim);
+  font-style: italic;
+  margin-bottom: 36px;
+}
+
+/* ─── AGENT STATUS BAR ─── */
+.agent-status-bar {
+  display: flex;
+  gap: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 0;
+  margin-bottom: 40px;
+  overflow: hidden;
+}
+
+.agent-status-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  font-size: 13px;
+  color: var(--parchment-dim);
+  border-right: 1px solid var(--card-border);
+  transition: background 0.3s;
+}
+
+.agent-status-item:last-child {
+  border-right: none;
+}
+
+.agent-status-item.active {
+  background: rgba(74,158,255,0.08);
+  color: var(--recall);
+}
+
+.agent-status-item.done {
+  background: rgba(201,128,58,0.08);
+  color: var(--amber);
+}
+
+.agent-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  flex-shrink: 0;
+  transition: all 0.3s;
+}
+
+.agent-status-item.active .agent-dot {
+  background: var(--recall);
+  box-shadow: 0 0 8px var(--recall);
+  animation: dot-pulse 1s ease-in-out infinite;
+}
+
+.agent-status-item.done .agent-dot {
+  background: var(--amber);
+}
+
+@keyframes dot-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.agent-state {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  opacity: 0.6;
+}
+
+/* ─── LOADING FILM STRIP ─── */
+.memory-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 80px 0;
+}
+
+.film-strip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.film-hole {
+  width: 12px;
+  height: 18px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.1);
+  animation: film-flick 0.6s ease-in-out infinite alternate;
+}
+
+.film-hole:nth-child(2) { animation-delay: 0.1s; }
+.film-hole:nth-child(3) { animation-delay: 0.2s; }
+.film-hole:nth-child(5) { animation-delay: 0.3s; }
+.film-hole:nth-child(6) { animation-delay: 0.4s; }
+.film-hole:nth-child(7) { animation-delay: 0.5s; }
+
+.film-frame {
+  width: 160px;
+  height: 90px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, rgba(201,128,58,0.2), rgba(74,158,255,0.2));
+  border: 1px solid var(--card-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.film-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
+  animation: film-scan 1.5s ease-in-out infinite;
+}
+
+@keyframes film-scan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+@keyframes film-flick {
+  from { opacity: 0.3; }
+  to { opacity: 0.8; }
+}
+
+.loading-text {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--parchment-dim);
+  opacity: 0.7;
+  text-transform: uppercase;
+}
+
+/* ─── MEMORY GRID ─── */
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  animation: grid-reveal 0.6s var(--ease-out) forwards;
+}
+
+@keyframes grid-reveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.memory-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 24px;
+  transition: all 0.3s var(--ease-out);
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+}
+
+.memory-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--card-accent, var(--amber));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.memory-card:hover {
+  border-color: rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.06);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+
+.memory-card:hover::before {
+  opacity: 1;
+}
+
+.card-era-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-era-tag::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.card-year {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.08);
+  position: absolute;
+  top: 14px;
+  right: 20px;
+  line-height: 1;
+  letter-spacing: -2px;
+  pointer-events: none;
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ghost);
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.card-body {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--parchment-dim);
+  margin-bottom: 16px;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.card-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--parchment-dim);
+  padding: 3px 9px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+.memory-card.type-music { --card-accent: #9B59B6; }
+.memory-card.type-event { --card-accent: var(--recall); }
+.memory-card.type-tv { --card-accent: #E74C3C; }
+.memory-card.type-tech { --card-accent: #2ECC71; }
+.memory-card.type-sport { --card-accent: #F39C12; }
+.memory-card.type-fashion { --card-accent: #E91E8C; }
+
+/* ─── PROFILE SECTION ─── */
+.profile-section {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  padding: 100px 40px 80px;
+}
+
+.profile-container {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.profile-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  opacity: 0.8;
+}
+
+.profile-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 900;
+  color: var(--ghost);
+  letter-spacing: -1.5px;
+  margin-bottom: 16px;
+}
+
+.profile-body {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--parchment-dim);
+  margin-bottom: 48px;
+  max-width: 560px;
+}
+
+/* ─── FORM ─── */
+.profile-form {
+  position: relative;
+}
+
+.form-step {
+  display: none;
+  animation: step-in 0.4s var(--ease-out) forwards;
+}
+
+.form-step.active {
+  display: block;
+}
+
+@keyframes step-in {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.step-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--parchment-dim);
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.form-input {
+  background: rgba(255,255,255,0.05);
+  border: 1.5px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 13px 16px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--ghost);
+  outline: none;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.form-input:focus {
+  border-color: var(--amber);
+  background: rgba(201,128,58,0.06);
+}
+
+.form-input::placeholder {
+  color: rgba(200,186,170,0.35);
+}
+
+.form-next-btn, .reconstruct-btn {
+  margin-top: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--amber);
+  border: none;
+  border-radius: 8px;
+  padding: 14px 28px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--obsidian);
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.2px;
+}
+
+.form-next-btn:hover, .reconstruct-btn:hover {
+  background: var(--amber-glow);
+  transform: translateX(3px);
+}
+
+.form-back-btn {
+  background: none;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 14px 24px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--parchment-dim);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.form-back-btn:hover {
+  border-color: rgba(255,255,255,0.2);
+  color: var(--ghost);
+}
+
+.form-nav-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+/* ─── BRACKET CARDS ─── */
+.bracket-row {
+  margin-bottom: 20px;
+}
+
+.bracket-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  transition: border-color 0.3s;
+}
+
+.bracket-card:focus-within {
+  border-color: rgba(201,128,58,0.4);
+}
+
+.bracket-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.bracket-title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ghost);
+  margin-bottom: 4px;
+}
+
+.bracket-sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--parchment-dim);
+  opacity: 0.6;
+  margin-bottom: 16px;
+}
+
+/* ─── TOGGLE GRID ─── */
+.step-desc {
+  font-size: 14px;
+  color: var(--parchment-dim);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.toggle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.toggle-item {
+  cursor: pointer;
+}
+
+.toggle-check {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toggle-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+  background: var(--card-bg);
+  border: 1.5px solid var(--card-border);
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.toggle-check:checked + .toggle-card {
+  border-color: var(--amber);
+  background: var(--amber-bg);
+}
+
+.toggle-emoji {
+  font-size: 20px;
+  margin-bottom: 6px;
+}
+
+.toggle-name {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ghost);
+}
+
+.toggle-desc {
+  font-size: 12px;
+  color: var(--parchment-dim);
+  line-height: 1.4;
+}
+
+/* ─── AGENT PIPELINE ─── */
+.reconstruction-display {
+  padding: 20px 0;
+}
+
+.recon-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ghost);
+  margin-bottom: 32px;
+  letter-spacing: -0.5px;
+}
+
+.agent-pipeline {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+
+.pipeline-agent {
+  flex: 1;
+  min-width: 140px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 18px;
+  transition: all 0.4s;
+}
+
+.pipeline-agent.active {
+  border-color: var(--recall);
+  background: rgba(74,158,255,0.08);
+}
+
+.pipeline-agent.done {
+  border-color: var(--amber);
+  background: var(--amber-bg);
+}
+
+.pipe-icon {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.pipe-name {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ghost);
+  margin-bottom: 6px;
+}
+
+.pipe-status {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--parchment-dim);
+  opacity: 0.6;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.pipe-bar {
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.pipe-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--recall);
+  border-radius: 3px;
+  transition: width 0.4s var(--ease-out);
+}
+
+.pipeline-agent.done .pipe-fill {
+  width: 100%;
+  background: var(--amber);
+}
+
+.pipe-arrow {
+  font-size: 20px;
+  color: var(--parchment-dim);
+  opacity: 0.3;
+  align-self: center;
+  flex-shrink: 0;
+}
+
+/* ─── LOG FEED ─── */
+.log-feed {
+  background: var(--ink);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--parchment-dim);
+  line-height: 1.8;
+  max-height: 180px;
+  overflow-y: auto;
+  letter-spacing: 0.5px;
+}
+
+.log-line {
+  opacity: 0;
+  animation: log-appear 0.3s ease forwards;
+}
+
+@keyframes log-appear {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.log-line .log-time { color: var(--amber); margin-right: 8px; }
+.log-line .log-agent { color: var(--recall); margin-right: 8px; }
+
+/* ─── PERSONAL TIMELINE ─── */
+.personal-timeline {
+  padding: 8px 0;
+}
+
+.timeline-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.timeline-user-name {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--amber);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.timeline-title {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 900;
+  color: var(--ghost);
+  letter-spacing: -1px;
+  margin-bottom: 8px;
+}
+
+.timeline-subtitle {
+  font-size: 14px;
+  color: var(--parchment-dim);
+}
+
+.timeline-bracket {
+  margin-bottom: 56px;
+}
+
+.bracket-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.bracket-line {
+  flex: 1;
+  height: 1px;
+  background: var(--card-border);
+}
+
+.bracket-label-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.bracket-emoji {
+  font-size: 18px;
+}
+
+.bracket-period-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ghost);
+}
+
+.bracket-years-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--amber);
+  opacity: 0.8;
+}
+
+.bracket-memories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+/* ─── ABOUT SECTION ─── */
+.about-section {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  padding: 100px 40px 80px;
+}
+
+.about-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.manifesto-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+.manifesto-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 900;
+  color: var(--ghost);
+  letter-spacing: -2px;
+  line-height: 1.05;
+  margin-bottom: 36px;
+}
+
+.manifesto-body p {
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--parchment-dim);
+  margin-bottom: 20px;
+  max-width: 680px;
+}
+
+.how-it-works {
+  margin-top: 72px;
+}
+
+.hiw-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 32px;
+  opacity: 0.8;
+}
+
+.agent-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.agent-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 24px;
+  transition: all 0.3s;
+}
+
+.agent-card:hover {
+  border-color: rgba(201,128,58,0.3);
+  background: var(--amber-bg);
+  transform: translateY(-4px);
+}
+
+.ac-number {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.06);
+  line-height: 1;
+  margin-bottom: 8px;
+  letter-spacing: -2px;
+}
+
+.ac-name {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ghost);
+  margin-bottom: 10px;
+}
+
+.ac-desc {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--parchment-dim);
+}
+
+/* ─── TRENDING SECTION ─── */
+.trending-section {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  padding: 100px 40px 80px;
+}
+
+.trending-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.trending-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  opacity: 0.8;
+}
+
+.trending-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 900;
+  color: var(--ghost);
+  letter-spacing: -1.5px;
+  margin-bottom: 48px;
+}
+
+.era-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.era-card {
+  position: relative;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 28px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s var(--ease-out);
+}
+
+.era-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--era-color, rgba(201,128,58,0.15)), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.era-card:hover {
+  border-color: var(--era-color, rgba(201,128,58,0.4));
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+}
+
+.era-card:hover::after {
+  opacity: 1;
+}
+
+.era-decade {
+  font-family: var(--font-display);
+  font-size: 60px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.06);
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+  line-height: 1;
+  letter-spacing: -4px;
+  pointer-events: none;
+}
+
+.era-emoji {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.era-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ghost);
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.era-desc {
+  font-size: 13px;
+  color: var(--parchment-dim);
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 16px;
+}
+
+.era-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--amber);
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── FOOTER ─── */
+.site-footer {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--card-border);
+  padding: 40px;
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.footer-logo {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--amber);
+  letter-spacing: -0.5px;
+}
+
+.footer-tagline {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: var(--parchment-dim);
+  opacity: 0.5;
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  font-size: 13px;
+  color: var(--parchment-dim);
+  text-decoration: none;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.footer-links a:hover {
+  opacity: 1;
+  color: var(--ghost);
+}
+
+.footer-copy {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--parchment-dim);
+  opacity: 0.4;
+  width: 100%;
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid var(--card-border);
+  margin-top: 8px;
+}
+
+/* ─── UPLOAD MODAL ─── */
+.fab-upload {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 200;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--amber);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--obsidian);
+  box-shadow: 0 4px 20px rgba(201,128,58,0.4);
+  transition: all 0.2s;
+}
+
+.fab-upload:hover {
+  transform: translateY(-3px) scale(1.06);
+  box-shadow: 0 8px 30px rgba(201,128,58,0.5);
+}
+
+.upload-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10,10,15,0.85);
+  backdrop-filter: blur(10px);
+}
+
+.modal-box {
+  position: relative;
+  z-index: 1;
+  background: var(--ink);
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+  padding: 36px;
+  max-width: 480px;
+  width: calc(100% - 40px);
+}
+
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ghost);
+  margin-bottom: 10px;
+}
+
+.modal-desc {
+  font-size: 14px;
+  color: var(--parchment-dim);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.upload-zone {
+  border: 2px dashed rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--card-bg);
+}
+
+.upload-zone:hover {
+  border-color: var(--amber);
+  background: var(--amber-bg);
+}
+
+.upload-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.upload-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ghost);
+  margin-bottom: 6px;
+}
+
+.upload-hint {
+  font-size: 12px;
+  color: var(--parchment-dim);
+  opacity: 0.6;
+}
+
+.upload-preview {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.preview-item {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 12px;
+  color: var(--parchment-dim);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-close {
+  margin-top: 20px;
+  width: 100%;
+  background: none;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 12px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--parchment-dim);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modal-close:hover {
+  border-color: rgba(255,255,255,0.2);
+  color: var(--ghost);
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--ink); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .nav { padding: 0 20px; }
+  .nav-links { display: none; }
+
+  .hero { padding: 90px 20px 60px; }
+  .hero-stats { gap: 20px; }
+  .stat-divider { height: 28px; }
+
+  .form-row { grid-template-columns: 1fr; }
+  .toggle-grid { grid-template-columns: 1fr 1fr; }
+
+  .agent-pipeline { flex-direction: column; }
+  .pipe-arrow { transform: rotate(90deg); align-self: center; }
+
+  .results-section, .profile-section, .about-section, .trending-section {
+    padding: 90px 20px 60px;
+  }
+
+  .agent-status-bar { flex-direction: column; }
+  .agent-status-item { border-right: none; border-bottom: 1px solid var(--card-border); }
+
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+  .footer-links { gap: 16px; }
+
+  .hero-stats { flex-wrap: wrap; justify-content: center; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ─── PARTICLE CANVAS ─── -->
+<canvas id="neural-canvas"></canvas>
+
+<!-- ─── NAV ─── -->
+<nav class="nav" id="main-nav">
+  <div class="nav-logo">
+    <span class="logo-m">M</span><span class="logo-rest">NEMOS</span>
+    <span class="logo-tag">GLOBAL MEMORY BANK</span>
+  </div>
+  <div class="nav-links">
+    <a href="#" class="nav-link" onclick="showSection('home')">Archive</a>
+    <a href="#" class="nav-link" onclick="showSection('profile')">My Memory</a>
+    <a href="#" class="nav-link" onclick="showSection('trending')">Trending Eras</a>
+    <a href="#" class="nav-link" onclick="showSection('about')">About</a>
+  </div>
+  <button class="nav-cta" onclick="showSection('profile')">Link Profile →</button>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero" id="section-home">
+  <div class="hero-eyebrow">EST. THE MOMENT YOU WERE BORN</div>
+  <h1 class="hero-title">
+    The Internet<br/>
+    <em>Never Forgets.</em><br/>
+    <span class="hero-title-sub">Neither Should You.</span>
+  </h1>
+  <p class="hero-body">
+    MNEMOS is the world's first digital memory bank — a living archive that reaches back through the global web to reconstruct the eras you lived, the songs that defined you, the world events that shaped you. Your forgotten memories, recovered.
+  </p>
+
+  <!-- ─── THE SEARCH BAR ─── -->
+  <div class="search-universe" id="search-universe">
+    <div class="search-shell">
+      <div class="search-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      </div>
+      <input
+        type="text"
+        id="memory-search"
+        class="search-input"
+        placeholder="Search a year, school, song, event, feeling..."
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button class="search-btn" id="search-btn" onclick="triggerSearch()">
+        <span class="search-btn-text">Recall</span>
+        <span class="search-btn-arrow">→</span>
+      </button>
+    </div>
+    <div class="search-suggestions" id="search-suggestions">
+      <span class="suggestion-label">Popular:</span>
+      <button class="suggestion-chip" onclick="quickSearch('1990s childhood')">90s Childhood</button>
+      <button class="suggestion-chip" onclick="quickSearch('2000s school days')">2000s School Days</button>
+      <button class="suggestion-chip" onclick="quickSearch('Y2K era 1999-2001')">Y2K Era</button>
+      <button class="suggestion-chip" onclick="quickSearch('2010s teen years')">2010s Teen</button>
+      <button class="suggestion-chip" onclick="quickSearch('1980s nostalgia')">80s Nostalgia</button>
+    </div>
+    <!-- Pulse rings animate on search -->
+    <div class="pulse-rings" id="pulse-rings">
+      <div class="ring ring-1"></div>
+      <div class="ring ring-2"></div>
+      <div class="ring ring-3"></div>
+      <div class="ring ring-4"></div>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-block">
+      <span class="stat-num" data-target="4200000000">0</span>
+      <span class="stat-label">Memories Indexed</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-block">
+      <span class="stat-num" data-target="195">0</span>
+      <span class="stat-label">Countries Covered</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-block">
+      <span class="stat-num" data-target="130">0</span>
+      <span class="stat-label">Years of Archive</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MEMORY RESULTS SECTION ─── -->
+<section class="results-section" id="results-section" style="display:none;">
+  <div class="results-header">
+    <div class="results-breadcrumb">
+      <span class="crumb-home" onclick="backToHome()">Archive</span>
+      <span class="crumb-sep">→</span>
+      <span class="crumb-query" id="crumb-query"></span>
+    </div>
+    <h2 class="results-title" id="results-title">Memory Bank: Loading...</h2>
+    <p class="results-subtitle" id="results-subtitle"></p>
+  </div>
+
+  <!-- Agent Status Bar -->
+  <div class="agent-status-bar" id="agent-status-bar">
+    <div class="agent-status-item" id="agent-1">
+      <div class="agent-dot"></div>
+      <span>Search Agent</span>
+      <span class="agent-state">Scanning...</span>
+    </div>
+    <div class="agent-status-item" id="agent-2">
+      <div class="agent-dot"></div>
+      <span>Era Classifier</span>
+      <span class="agent-state">Idle</span>
+    </div>
+    <div class="agent-status-item" id="agent-3">
+      <div class="agent-dot"></div>
+      <span>Net Memory Agent</span>
+      <span class="agent-state">Idle</span>
+    </div>
+    <div class="agent-status-item" id="agent-4">
+      <div class="agent-dot"></div>
+      <span>Emotion Curator</span>
+      <span class="agent-state">Idle</span>
+    </div>
+  </div>
+
+  <!-- Loading state -->
+  <div class="memory-loading" id="memory-loading">
+    <div class="loading-film">
+      <div class="film-strip">
+        <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+        <div class="film-frame loading-frame"></div>
+        <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
+      </div>
+    </div>
+    <p class="loading-text" id="loading-text">Reaching into the archive...</p>
+  </div>
+
+  <!-- Memory output grid -->
+  <div class="memory-grid" id="memory-grid" style="display:none;"></div>
+</section>
+
+<!-- ─── PROFILE LINK SECTION ─── -->
+<section class="profile-section" id="section-profile" style="display:none;">
+  <div class="profile-container">
+    <div class="profile-header">
+      <div class="profile-eyebrow">PERSONAL MEMORY RECONSTRUCTION</div>
+      <h2 class="profile-title">Link Your Profile</h2>
+      <p class="profile-body">Provide your life brackets and MNEMOS will reconstruct your personal memory timeline — cross-referenced against global events, viral culture, and archived net history from your exact years and location.</p>
+    </div>
+
+    <div class="profile-form" id="profile-form">
+      <!-- Step 1 -->
+      <div class="form-step active" id="step-1">
+        <div class="step-label">Step 01 — Identity Anchors</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input type="text" class="form-input" id="p-name" placeholder="Your name"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Birth Year</label>
+            <input type="number" class="form-input" id="p-birth" placeholder="e.g. 1995" min="1920" max="2006"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Country of Origin</label>
+            <input type="text" class="form-input" id="p-country" placeholder="e.g. Kenya, USA, UK..."/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">City / Region</label>
+            <input type="text" class="form-input" id="p-city" placeholder="e.g. Nairobi, Lagos, London..."/>
+          </div>
+        </div>
+        <button class="form-next-btn" onclick="nextStep(2)">Next — School Brackets →</button>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="form-step" id="step-2">
+        <div class="step-label">Step 02 — School Memory Brackets</div>
+        <div class="bracket-row">
+          <div class="bracket-card" id="bracket-primary">
+            <div class="bracket-icon">📚</div>
+            <div class="bracket-title">Primary School</div>
+            <div class="bracket-sub">Kindergarten → Class 8 / Grade 8</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">School Name</label>
+                <input type="text" class="form-input" id="p-primary-name" placeholder="School name"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Years Attended</label>
+                <input type="text" class="form-input" id="p-primary-years" placeholder="e.g. 2000 – 2008"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bracket-row">
+          <div class="bracket-card" id="bracket-secondary">
+            <div class="bracket-icon">🎒</div>
+            <div class="bracket-title">Secondary / High School</div>
+            <div class="bracket-sub">Form 1–4 / Grade 9–12</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">School Name</label>
+                <input type="text" class="form-input" id="p-secondary-name" placeholder="School name"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Years Attended</label>
+                <input type="text" class="form-input" id="p-secondary-years" placeholder="e.g. 2008 – 2012"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bracket-row">
+          <div class="bracket-card" id="bracket-uni">
+            <div class="bracket-icon">🎓</div>
+            <div class="bracket-title">University / College</div>
+            <div class="bracket-sub">Optional</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Institution</label>
+                <input type="text" class="form-input" id="p-uni-name" placeholder="University name"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Years Attended</label>
+                <input type="text" class="form-input" id="p-uni-years" placeholder="e.g. 2012 – 2016"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-nav-row">
+          <button class="form-back-btn" onclick="nextStep(1)">← Back</button>
+          <button class="form-next-btn" onclick="nextStep(3)">Next — Memory Depth →</button>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="form-step" id="step-3">
+        <div class="step-label">Step 03 — Memory Depth Settings</div>
+        <p class="step-desc">Choose what the agents excavate from your era. The more you enable, the richer your memory reconstruction.</p>
+        <div class="toggle-grid">
+          <label class="toggle-item">
+            <input type="checkbox" class="toggle-check" id="t-music" checked/>
+            <div class="toggle-card">
+              <span class="toggle-emoji">🎵</span>
+              <span class="toggle-name">Songs & Music</span>
+              <span class="toggle-desc">Top tracks & viral songs from your years</span>
+            </div>
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" class="toggle-check" id="t-events" checked/>
+            <div class="toggle-card">
+              <span class="toggle-emoji">📰</span>
+              <span class="toggle-name">World Events</span>
+              <span class="toggle-desc">Major news & cultural moments</span>
+            </div>
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" class="toggle-check" id="t-tv" checked/>
+            <div class="toggle-card">
+              <span class="toggle-emoji">📺</span>
+              <span class="toggle-name">TV & Films</span>
+              <span class="toggle-desc">Popular shows, cartoons, blockbusters</span>
+            </div>
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" class="toggle-check" id="t-toys"/>
+            <div class="toggle-card">
+              <span class="toggle-emoji">🧸</span>
+              <span class="toggle-name">Toys & Games</span>
+              <span class="toggle-desc">Iconic products from your childhood years</span>
+            </div>
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" class="toggle-check" id="t-tech"/>
+            <div class="toggle-card">
+              <span class="toggle-emoji">💾</span>
+              <span class="toggle-name">Tech of the Era</span>
+              <span class="toggle-desc">Phones, gadgets, internet history</span>
+            </div>
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" class="toggle-check" id="t-school"/>
+            <div class="toggle-card">
+              <span class="toggle-emoji">🏫</span>
+              <span class="toggle-name">School Archives</span>
+              <span class="toggle-desc">Photos, events, yearbook data if public</span>
+            </div>
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" class="toggle-check" id="t-sports"/>
+            <div class="toggle-card">
+              <span class="toggle-emoji">⚽</span>
+              <span class="toggle-name">Sports Moments</span>
+              <span class="toggle-desc">World cups, championships, legends</span>
+            </div>
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" class="toggle-check" id="t-fashion"/>
+            <div class="toggle-card">
+              <span class="toggle-emoji">👟</span>
+              <span class="toggle-name">Fashion & Trends</span>
+              <span class="toggle-desc">Looks, slang, viral moments of the era</span>
+            </div>
+          </label>
+        </div>
+        <div class="form-nav-row">
+          <button class="form-back-btn" onclick="nextStep(2)">← Back</button>
+          <button class="form-next-btn reconstruct-btn" onclick="startReconstruction()">
+            ⚡ Reconstruct My Memory →
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 4: Processing -->
+      <div class="form-step" id="step-4">
+        <div class="reconstruction-display" id="reconstruction-display">
+          <div class="recon-title">Memory Reconstruction in Progress</div>
+          <div class="agent-pipeline">
+            <div class="pipeline-agent" id="pipe-1">
+              <div class="pipe-icon">🔍</div>
+              <div class="pipe-name">Profile Agent</div>
+              <div class="pipe-status" id="pipe-1-status">Initializing...</div>
+              <div class="pipe-bar"><div class="pipe-fill" id="pipe-1-fill"></div></div>
+            </div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipeline-agent" id="pipe-2">
+              <div class="pipe-icon">📅</div>
+              <div class="pipe-name">Era Bracket Agent</div>
+              <div class="pipe-status" id="pipe-2-status">Waiting...</div>
+              <div class="pipe-bar"><div class="pipe-fill" id="pipe-2-fill"></div></div>
+            </div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipeline-agent" id="pipe-3">
+              <div class="pipe-icon">🌐</div>
+              <div class="pipe-name">Net Memory Agent</div>
+              <div class="pipe-status" id="pipe-3-status">Waiting...</div>
+              <div class="pipe-bar"><div class="pipe-fill" id="pipe-3-fill"></div></div>
+            </div>
+            <div class="pipe-arrow">→</div>
+            <div class="pipeline-agent" id="pipe-4">
+              <div class="pipe-icon">💡</div>
+              <div class="pipe-name">Emotion Curator</div>
+              <div class="pipe-status" id="pipe-4-status">Waiting...</div>
+              <div class="pipe-bar"><div class="pipe-fill" id="pipe-4-fill"></div></div>
+            </div>
+          </div>
+          <div class="log-feed" id="log-feed"></div>
+        </div>
+      </div>
+
+      <!-- Step 5: Personal Memory Timeline -->
+      <div class="form-step" id="step-5">
+        <div class="personal-timeline" id="personal-timeline"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ABOUT SECTION ─── -->
+<section class="about-section" id="section-about" style="display:none;">
+  <div class="about-container">
+    <div class="about-manifesto">
+      <div class="manifesto-eyebrow">THE MANIFESTO</div>
+      <h2 class="manifesto-title">Memory Is the Only Currency<br/>That Never Devalues.</h2>
+      <div class="manifesto-body">
+        <p>The internet was built to never forget. Every Billboard chart, every school newsletter scanned to PDF, every news broadcast archived on a server somewhere — the collective digital memory of humanity is vaster than any single mind can hold.</p>
+        <p>MNEMOS is the bridge between that archive and you. We deploy a cascade of intelligent agents — search agents, era classifiers, net-crawling memory harvesters, and emotion curators — to reconstruct the exact texture of the years you lived through.</p>
+        <p>We believe in the therapeutic power of remembering. The song that played during your school assembly. The phone everyone was passing around. The world event your teacher interrupted class to tell you about. These weren't small moments. They were the substrate of who you became.</p>
+        <p>We built MNEMOS so you can go back. Not in time — but in feeling.</p>
+      </div>
+    </div>
+
+    <div class="how-it-works">
+      <div class="hiw-eyebrow">HOW THE AGENTS WORK</div>
+      <div class="agent-cards">
+        <div class="agent-card">
+          <div class="ac-number">01</div>
+          <div class="ac-name">Search Agent</div>
+          <div class="ac-desc">You give it a year, a school, a place. It maps your query against the global net archive — identifying your temporal and geographic fingerprint.</div>
+        </div>
+        <div class="agent-card">
+          <div class="ac-number">02</div>
+          <div class="ac-name">Era Bracket Agent</div>
+          <div class="ac-desc">Classifies your years into memory brackets: Early Childhood, Primary, Secondary, Young Adult. Each bracket gets its own memory excavation pass.</div>
+        </div>
+        <div class="agent-card">
+          <div class="ac-number">03</div>
+          <div class="ac-name">Net Memory Agent</div>
+          <div class="ac-desc">The workhorse. Pulls Billboard charts, Wikipedia events, archived TV schedules, school records, YouTube upload dates, and viral internet moments from your exact years.</div>
+        </div>
+        <div class="agent-card">
+          <div class="ac-number">04</div>
+          <div class="ac-name">Emotion Curator</div>
+          <div class="ac-desc">Synthesizes raw data into emotional resonance. It knows that a song doesn't just belong to a year — it belongs to a feeling. It frames your memories accordingly.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TRENDING SECTION ─── -->
+<section class="trending-section" id="section-trending" style="display:none;">
+  <div class="trending-container">
+    <div class="trending-header">
+      <div class="trending-eyebrow">MOST EXCAVATED ERAS</div>
+      <h2 class="trending-title">Trending Memory Decades</h2>
+    </div>
+    <div class="era-grid" id="era-grid"></div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="footer-logo">MNEMOS</span>
+      <span class="footer-tagline">The Internet Remembers. So Do We.</span>
+    </div>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">API Access</a>
+      <a href="#">For Researchers</a>
+      <a href="#">Enterprise</a>
+    </div>
+    <div class="footer-copy">© 2026 MNEMOS Technologies. All memories preserved.</div>
+  </div>
+</footer>
+
+<!-- UPLOAD MODAL -->
+<div class="upload-modal" id="upload-modal" style="display:none;">
+  <div class="modal-backdrop" onclick="closeUpload()"></div>
+  <div class="modal-box">
+    <div class="modal-title">Add Your Memory Artifact</div>
+    <p class="modal-desc">Upload a photo, document, or file to anchor it to your memory timeline. Works from mobile too.</p>
+    <div class="upload-zone" id="upload-zone">
+      <div class="upload-icon">📎</div>
+      <div class="upload-text">Tap to upload or drag a file here</div>
+      <div class="upload-hint">Photos, PDFs, documents — any format</div>
+      <input type="file" id="file-input" accept="*/*" multiple onchange="handleFileUpload(event)" style="display:none;"/>
+    </div>
+    <div class="upload-preview" id="upload-preview"></div>
+    <button class="modal-close" onclick="closeUpload()">Close</button>
+  </div>
+</div>
+
+<!-- Floating upload button -->
+<button class="fab-upload" onclick="openUpload()" title="Add Memory Artifact">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+    <polyline points="17 8 12 3 7 8"/>
+    <line x1="12" y1="3" x2="12" y2="15"/>
+  </svg>
+</button>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   MNEMOS — app.js
+   Multi-agent memory reconstruction engine
+   Neural canvas, search agent, era classifier, AI-powered recall
+   ═══════════════════════════════════════════════════════════ */
+
+'use strict';
+
+// ─── MEMORY DATABASE ───────────────────────────────────────
+// Deep curated dataset, year-indexed, tagged by category
+const MEMORY_DATABASE = {
+  "1980": {
+    music: ["Another One Bites the Dust – Queen", "Call Me – Blondie", "Upside Down – Diana Ross", "It's Still Rock and Roll – Billy Joel"],
+    events: ["Mount St. Helens erupts, Washington", "US boycotts Moscow Olympics", "John Lennon is shot in New York City", "Pac-Man arcade game releases"],
+    tv: ["Dallas 'Who Shot JR?' – biggest TV mystery of the era", "The Empire Strikes Back dominates cinemas", "Tom & Jerry revival"],
+    tech: ["Atari 2600 at its peak", "Sony Walkman becomes mainstream", "Commodore VIC-20 personal computer"],
+    sport: ["USA Hockey 'Miracle on Ice' at Lake Placid", "Muhammad Ali's last fight"],
+    fashion: ["Power shoulders emerge", "Legwarmers go mainstream", "Rubik's Cube in every pocket"],
+  },
+  "1985": {
+    music: ["We Are the World – USA for Africa", "Careless Whisper – Wham!", "Take On Me – a-ha", "Like a Virgin – Madonna"],
+    events: ["Live Aid concert — global broadcast", "Back to the Future hits cinemas", "Coca-Cola changed formula, fans revolted"],
+    tv: ["The Cosby Show peaks", "ALF debuts", "ThunderCats premiere"],
+    tech: ["Nintendo Entertainment System launches in US", "Windows 1.0 debuts", "CD players become affordable"],
+    sport: ["Boris Agassi era begins", "Chicago Bears go undefeated"],
+    fashion: ["Acid wash denim", "Jelly shoes", "Fingerless gloves à la Madonna"],
+  },
+  "1990": {
+    music: ["U Can't Touch This – MC Hammer", "Nothing Compares 2 U – Sinéad O'Connor", "Vogue – Madonna", "Ice Ice Baby – Vanilla Ice"],
+    events: ["Germany reunifies", "Nelson Mandela freed after 27 years", "Gulf War begins", "Hubble Space Telescope launched"],
+    tv: ["Fresh Prince of Bel-Air premieres", "The Simpsons becomes a phenomenon", "Twin Peaks debuts"],
+    tech: ["World Wide Web announced by Tim Berners-Lee", "Super Nintendo released in Japan"],
+    sport: ["World Cup Italy 1990 — Roger Milla's iconic corner flag dance"],
+    fashion: ["Cross Colours brand", "Hypercolor shirts", "Smiley face everywhere"],
+  },
+  "1991": {
+    music: ["Smells Like Teen Spirit – Nirvana", "Every Little Thing She Does is Magic – The Police revival", "Real Love – Mary J Blige"],
+    events: ["Soviet Union dissolves — Cold War ends", "WWW opens to the public", "Freddie Mercury passes"],
+    tv: ["Terminator 2 reshapes cinema effects", "Home Alone still dominating VHS rentals"],
+    tech: ["Linux kernel released", "First commercial email service"],
+    sport: ["Michael Jordan's Chicago Bulls dynasty begins"],
+    fashion: ["Flannel shirt grunge era", "Doc Martens boom"],
+  },
+  "1992": {
+    music: ["Jump – Kris Kross", "Baby Got Back – Sir Mix-A-Lot", "November Rain – Guns N' Roses", "End of the Road – Boyz II Men"],
+    events: ["LA Riots after Rodney King verdict", "Euro Disney opens", "Bill Clinton defeats Bush Sr."],
+    tv: ["Cartoon Network launches", "The Real World premieres on MTV", "Aladdin dominates cinemas"],
+    tech: ["First camera phone prototype", "IBM ThinkPad launched"],
+    sport: ["Barcelona Olympics — Dream Team's debut", "Mike Tyson controversy"],
+    fashion: ["JNCO jeans begin", "Cross-earrings on men", "Snap bracelets banned from schools"],
+  },
+  "1993": {
+    music: ["Informer – Snow", "Whoomp! There It Is – Tag Team", "That's the Way Love Goes – Janet Jackson", "Creep – Radiohead"],
+    events: ["World Trade Center first bombed", "Jurassic Park shatters box office records", "Beanie Babies launch"],
+    tv: ["Mighty Morphin Power Rangers EXPLODES", "The X-Files premieres", "Beavis and Butt-Head peak era"],
+    tech: ["Mosaic web browser launched — internet goes visual", "Pentium processor arrives"],
+    sport: ["Michael Jordan retires briefly", "Toronto Blue Jays World Series repeat"],
+    fashion: ["Overalls with one strap down", "Plaid flannel everywhere", "Hypercolor peak"],
+  },
+  "1994": {
+    music: ["The Sign – Ace of Base", "I'll Make Love to You – Boyz II Men", "Regulate – Warren G & Nate Dogg", "Stay – Lisa Loeb"],
+    events: ["Rwandan genocide", "Nelson Mandela elected President of South Africa", "OJ Simpson car chase — live on TV", "Kurt Cobain passes"],
+    tv: ["Friends premieres — generation-defining", "The Lion King destroys cinema records", "Seinfeld peak era"],
+    tech: ["PlayStation 1 launches in Japan", "Yahoo! founded", "Amazon.com launched"],
+    sport: ["World Cup USA 94 — Brazil wins", "Forrest Gump running across America"],
+    fashion: ["Grunge meets preppy", "Dr. Martens everywhere", "Platform shoes rising"],
+  },
+  "1995": {
+    music: ["Gangsta's Paradise – Coolio", "Waterfalls – TLC", "Have You Ever Really Loved a Woman – Bryan Adams", "Creep – TLC"],
+    events: ["Oklahoma City bombing", "eBay and Craigslist founded", "DVD format announced", "Windows 95 launch — queues around the block"],
+    tv: ["Toy Story — first fully CG film in cinemas", "Baywatch peak viewership globally", "ER becomes appointment TV"],
+    tech: ["Java programming language launched", "DVD announced", "The internet goes mainstream in homes"],
+    sport: ["Riddick Bowe era boxing", "Cal Ripken Jr breaks Gehrig record"],
+    fashion: ["Tommy Hilfiger peak", "Versace everywhere", "Doc Martens at their absolute peak"],
+  },
+  "1996": {
+    music: ["Macarena – Los Del Rio (the ear worm that conquered Earth)", "One Sweet Day – Mariah & Boyz II Men", "California Love – Tupac", "Killing Me Softly – Fugees"],
+    events: ["Dolly the sheep cloned", "Tupac Shakur shot and killed", "Atlanta Summer Olympics — bombing incident", "Motorola StarTAC flip phone launches"],
+    tv: ["Jerry Springer Show peak chaos", "Pokémon anime begins in Japan", "Space Jam destroys cinema in November"],
+    tech: ["Nokia 9000 Communicator — early smartphone", "Google's Larry Page and Sergey Brin meet at Stanford"],
+    sport: ["Michael Jordan Chicago Bulls 72-10 season", "Evander Holyfield bites Tyson era begins"],
+    fashion: ["FUBU launches", "Sean John era", "Choker necklaces everywhere"],
+  },
+  "1997": {
+    music: ["MMMBop – Hanson", "I'll Be Missing You – Puff Daddy", "Bitch – Meredith Brooks", "Say You'll Be There – Spice Girls"],
+    events: ["Titanic hits cinemas — biggest film of all time", "Princess Diana dies in Paris tunnel", "Hong Kong returns to China", "Mike Tyson bites Holyfield's ear"],
+    tv: ["South Park premieres — controversies follow", "Buffy the Vampire Slayer launches", "Teletubbies debut — worldwide parents confused"],
+    tech: ["Deep Blue defeats Kasparov — AI milestone", "Amazon goes public", "DVD players become commercial"],
+    sport: ["Tiger Woods wins Masters at 21", "Brazil vs France World Cup — Ronaldo's mysterious 'episode'"],
+    fashion: ["Spice Girls style — platform shoes, tiny tops", "Tommy Hilfiger × celebrities", "Frosted tips on men"],
+  },
+  "1998": {
+    music: ["My Heart Will Go On – Céline Dion", "Too Close – Next", "The Boy Is Mine – Brandy & Monica", "Gettin' Jiggy Wit It – Will Smith"],
+    events: ["Google Inc. founded", "Clinton impeachment hearings", "Saving Private Ryan redefines war cinema", "iMac G3 launches in translucent colors"],
+    tv: ["Pokémon arrives in the West — everywhere within weeks", "Dawson's Creek premiere", "WWE Monday Night Raw dominates ratings"],
+    tech: ["iMac G3 — computers become beautiful", "Napster concept being developed", "First MP3 players appear"],
+    sport: ["World Cup France 98 — Zinedine Zidane's France wins", "Mark McGwire and Sammy Sosa home run race"],
+    fashion: ["Platform sneakers explode", "Von Dutch begins", "JNCO jeans widths reach maximum"],
+  },
+  "1999": {
+    music: ["...Baby One More Time – Britney Spears", "Smooth – Santana ft. Rob Thomas", "Livin' La Vida Loca – Ricky Martin", "Genie in a Bottle – Christina Aguilera"],
+    events: ["Y2K fear reaches peak — the millennium bug", "Napster launches — music industry panics", "The Matrix — red pill or blue pill?", "Columbine High School shooting shocks the world"],
+    tv: ["SpongeBob SquarePants premieres", "Sopranos debut on HBO — TV is never the same", "Total Request Live on MTV at its absolute peak"],
+    tech: ["Bluetooth standard released", "MSN Messenger peak era begins", "AIM away messages as art form"],
+    sport: ["US Women's World Cup — Brandi Chastain iconic moment", "Lance Armstrong's first Tour de France"],
+    fashion: ["Butterfly clips in every hairstyle", "Bedazzled phones and accessories", "Baby tees and low-rise jeans begin"],
+  },
+  "2000": {
+    music: ["Breathe – Faith Hill", "Beautiful Day – U2", "In Da Club – 50 Cent begins rise", "Survivor – Destiny's Child"],
+    events: ["Y2K arrives — nothing happens (relief)", "Sydney Olympics — Cathy Freeman lights torch", "Reality TV era begins — Big Brother launches", "US Presidential election — hanging chads in Florida"],
+    tv: ["Survivor Season 1 — reality TV is born", "Who Wants to Be a Millionaire peaks", "Dora the Explorer premieres"],
+    tech: ["PlayStation 2 sells out globally", "iPod concept in development", "First camera phones in Japan", "Pop-up ads begin destroying internet experience"],
+    sport: ["Sydney 2000 Olympics — greatest athletes era", "Tiger Woods dominates golf completely"],
+    fashion: ["Von Dutch trucker hats emerging", "Low-rise jeans in full swing", "Frosted tips still somehow popular"],
+  },
+  "2001": {
+    music: ["Hanging by a Moment – Lifehouse", "Get Ur Freak On – Missy Elliott", "Drops of Jupiter – Train", "Fallin' – Alicia Keys"],
+    events: ["9/11 — September 11 attacks reshape the world", "Wikipedia launched", "iPod unveiled by Steve Jobs", "Harry Potter and the Sorcerer's Stone opens in cinemas"],
+    tv: ["American Idol Season 1 — cultural hurricane", "Shrek becomes instant classic", "SpongeBob SquarePants hits peak popularity"],
+    tech: ["iPod first generation — 1000 songs in your pocket", "Wikipedia launches", "Xbox launches — Microsoft enters gaming"],
+    sport: ["Michael Jordan returns (again)", "New England Patriots dynasty begins"],
+    fashion: ["Low-rise denim absolute peak", "Juicy Couture velour tracksuits begin", "Ugg boots emerging"],
+  },
+  "2002": {
+    music: ["In Da Club – 50 Cent", "Complicated – Avril Lavigne", "A Moment Like This – Kelly Clarkson", "Lose Yourself – Eminem"],
+    events: ["Bali bombing", "Queen Elizabeth II's Golden Jubilee", "Spider-Man breaks box office records", "Euro coins and notes introduced"],
+    tv: ["American Idol Kelly Clarkson wins — nation glued", "24 with Kiefer Sutherland debuts", "The Wire premieres on HBO"],
+    tech: ["Bluetooth goes mainstream", "Camera phones arrive in the West", "Friendster — early social network"],
+    sport: ["World Cup South Korea/Japan — Brazil wins", "Muhammad Ali's 60th birthday global celebration"],
+    fashion: ["Von Dutch trucker hats everyone's wearing", "Bootcut jeans peak", "Tie-dye shirts comeback"],
+  },
+  "2003": {
+    music: ["Crazy in Love – Beyoncé ft. Jay-Z", "In Da Club – 50 Cent", "Beautiful – Christina Aguilera", "Where Is the Love – Black Eyed Peas"],
+    events: ["Iraq War begins — Operation Iraqi Freedom", "SARS epidemic in Asia", "Concorde makes final flight", "Finding Nemo — Pixar peak"],
+    tv: ["American Idol season 2 — Clay vs Ruben", "The OC premieres — everyone's talking", "Queer Eye For the Straight Guy debut"],
+    tech: ["MySpace launches — social media era begins", "iTunes Music Store opens", "Skype founded"],
+    sport: ["LeBron James NBA draft — a legend enters", "Lance Armstrong wins fifth Tour de France"],
+    fashion: ["Ugg boots go global", "Trucker hats absolute peak (Ashton Kutcher era)", "Baby pink everything"],
+  },
+  "2004": {
+    music: ["Yeah! – Usher ft. Lil Jon & Ludacris", "Numb – Linkin Park", "The Reason – Hoobastank", "Milkshake – Kelis"],
+    events: ["Indian Ocean tsunami — 230,000 lives lost", "Facebook launches at Harvard", "Athens Olympics", "Abu Ghraib scandal"],
+    tv: ["Lost premiere — what IS that smoke monster?", "Desperate Housewives launch", "The Apprentice with Trump"],
+    tech: ["Facebook launches at Harvard", "Gmail invitation-only beta", "World of Warcraft releases"],
+    sport: ["Athens Olympics 2004", "Michael Phelps early dominance"],
+    fashion: ["Von Dutch fading, Ed Hardy rising", "Juicy Couture tracksuits everywhere", "DIY accessories"],
+  },
+  "2005": {
+    music: ["Since U Been Gone – Kelly Clarkson", "Gold Digger – Kanye West", "Irreplaceable – Beyoncé", "We Belong Together – Mariah Carey"],
+    events: ["Hurricane Katrina devastates New Orleans", "YouTube founded — the internet changes forever", "London bombings 7/7", "Pope John Paul II dies"],
+    tv: ["The Office US premiere", "Grey's Anatomy debuts", "Laguna Beach — reality TV peak"],
+    tech: ["YouTube founded", "MySpace peak — 20 million users", "First iPhone concept rumors begin"],
+    sport: ["Lance Armstrong wins seventh Tour de France (later stripped)", "Super Bowl Patriots dynasty"],
+    fashion: ["Emo fashion explodes — side fringes, skinny jeans", "Converse Chuck Taylors peak", "Band tees everywhere"],
+  },
+  "2006": {
+    music: ["SexyBack – Justin Timberlake", "Hips Don't Lie – Shakira ft. Wyclef Jean", "SOS – Rihanna", "Unfaithful – Rihanna"],
+    events: ["Twitter founded — the discourse begins", "Pluto declassified from planet status", "Saddam Hussein executed", "Pirates of the Caribbean dominates summer cinemas"],
+    tv: ["Heroes premieres — 'Save the cheerleader, save the world'", "Project Runway explodes", "Ugly Betty debuts"],
+    tech: ["Twitter launches", "Wii launches — motion gaming revolution", "PS3 and Xbox 360 battle begins", "MySpace peaks at 100M users"],
+    sport: ["World Cup Germany 2006 — Zidane headbutts Materazzi", "Roger Federer dominates tennis"],
+    fashion: ["Skinny jeans going mainstream", "Birkenstocks revival begins (quietly)", "Scene kid fashion peak"],
+  },
+  "2007": {
+    music: ["Umbrella – Rihanna", "Big Girls Don't Cry – Fergie", "Crank That – Soulja Boy", "Beautiful Girls – Sean Kingston"],
+    events: ["iPhone launched January 9th — Steve Jobs' greatest performance", "Virginia Tech shooting", "Harry Potter and the Deathly Hallows published", "Writers strike in Hollywood"],
+    tv: ["Mad Men premieres on AMC", "Breaking Bad begins", "The Big Bang Theory debuts"],
+    tech: ["iPhone first generation — everything changes", "Kindle launches — e-reading era", "Facebook opens to everyone", "Twitter begins to grow"],
+    sport: ["Roger Federer wins all four Grand Slams", "LeBron James vs. Spurs Finals"],
+    fashion: ["American Apparel peak era", "Skinny jeans now everywhere", "Ray-Ban Wayfarer comeback"],
+  },
+  "2008": {
+    music: ["Single Ladies – Beyoncé", "Just Dance – Lady Gaga", "American Boy – Estelle ft. Kanye", "Viva la Vida – Coldplay"],
+    events: ["Barack Obama elected — first Black US President", "Global Financial Crisis", "Beijing Olympics — Usain Bolt STUNS the world", "Dark Knight becomes cultural phenomenon"],
+    tv: ["Breaking Bad first season — the best TV ever?", "True Blood premieres", "30 Rock peaks"],
+    tech: ["App Store launches — mobile apps born", "Android launched", "Spotify launches in Europe"],
+    sport: ["Beijing 2008 Olympics — Usain Bolt runs 9.69s", "Michael Phelps wins 8 gold medals", "Federer vs Nadal Wimbledon — greatest match ever"],
+    fashion: ["Leggings as pants — the debate begins", "Vera Wang going mainstream", "Alexander McQueen peak avant-garde"],
+  },
+  "2009": {
+    music: ["Poker Face – Lady Gaga", "Down – Jay Sean", "Party in the USA – Miley Cyrus", "Run This Town – Jay-Z ft. Rihanna & Kanye"],
+    events: ["Michael Jackson dies June 25 — the world stops", "Swine flu pandemic", "Avatar breaks every box office record", "Balloon Boy hoax"],
+    tv: ["Glee debuts", "Modern Family premieres", "Jersey Shore — cannot be explained, must be experienced"],
+    tech: ["WhatsApp founded", "Instagram concept forming", "BBM (BlackBerry Messenger) at absolute peak", "Farmville destroys productivity"],
+    sport: ["Usain Bolt breaks his own world record at 9.58s", "Roger Federer's 15th Grand Slam"],
+    fashion: ["Neon colour explosion", "Gladiator sandals", "Skinny scarves"],
+  },
+  "2010": {
+    music: ["Love the Way You Lie – Eminem ft. Rihanna", "Tik Tok – Ke$ha", "Airplanes – B.o.B ft. Hayley Williams", "Like a G6 – Far East Movement"],
+    events: ["Haiti earthquake — devastating", "Chilean miners trapped and rescued — world watches 69 days", "BP Deepwater Horizon oil spill", "Apple iPad launched"],
+    tv: ["Walking Dead premieres", "Game of Thrones in development", "The Vampire Diaries peak"],
+    tech: ["Instagram launches", "iPad first generation", "4G LTE begins rollout", "Kindle 3 becomes affordable"],
+    sport: ["World Cup South Africa — Shakira's Waka Waka everywhere", "LeBron James 'The Decision'"],
+    fashion: ["Hipster aesthetic peaks", "Toms shoes everywhere", "Breton stripes and waxed jackets"],
+  },
+  "2011": {
+    music: ["Rolling in the Deep – Adele", "Party Rock Anthem – LMFAO", "We Found Love – Rihanna", "Someone Like You – Adele"],
+    events: ["Osama Bin Laden killed", "Arab Spring", "Fukushima nuclear disaster after Japan earthquake", "Steve Jobs dies — the tech world mourns"],
+    tv: ["Game of Thrones season 1 — the world is hooked", "Breaking Bad peaks", "Downton Abbey goes global"],
+    tech: ["Siri launches on iPhone 4S", "iCloud launches", "Snapchat founded", "BlackBerry continues declining"],
+    sport: ["NBA Lockout", "Rory McIlroy US Open dominance"],
+    fashion: ["Peplum tops everywhere", "Aztec print everything", "Lita boots"],
+  },
+  "2012": {
+    music: ["Call Me Maybe – Carly Rae Jepsen", "Gangnam Style – PSY (1 billion YouTube views breaks the internet)", "Some Nights – fun.", "We Are Young – fun."],
+    events: ["Gangnam Style reaches 1 billion YouTube views — first ever", "Sandy Hook school shooting", "London Olympics", "End of the Maya calendar — the world doesn't end (disappointingly)"],
+    tv: ["Breaking Bad — the finale approaches", "Game of Thrones Red Wedding traumatizes millions", "Homeland wins Emmy"],
+    tech: ["Instagram acquired by Facebook for $1B", "Google Maps for iPhone", "Pinterest explodes", "FaceTime going mainstream"],
+    sport: ["London 2012 Olympics — Mo Farah, Usain Bolt again", "LeBron James first NBA Championship"],
+    fashion: ["Color blocking", "Neon accessories", "Floral crowns at festivals"],
+  },
+  "2013": {
+    music: ["Blurred Lines – Robin Thicke (controversy)", "Royals – Lorde", "Wake Me Up – Avicii", "Timber – Pitbull ft. Ke$ha"],
+    events: ["Edward Snowden NSA leaks — everything is watched", "Pope Francis takes over", "Boston Marathon bombing", "Nelson Mandela dies aged 95"],
+    tv: ["Breaking Bad finale — Walter White's last stand", "House of Cards on Netflix — binge-watching era begins", "Miley Cyrus VMAs — the twerking incident"],
+    tech: ["Snapchat turns down Facebook's $3B offer", "Bitcoin reaches $1000 for first time", "iPhone 5S with fingerprint sensor"],
+    sport: ["Andy Murray wins Wimbledon — first Brit in 77 years", "Bayern Munich Champions League win"],
+    fashion: ["Normcore emerging", "Graphic sweatshirts", "Leather-look leggings"],
+  },
+  "2014": {
+    music: ["Happy – Pharrell Williams", "All About That Bass – Meghan Trainor", "Fancy – Iggy Azalea", "Let Her Go – Passenger"],
+    events: ["MH370 disappears — still unsolved", "Ice Bucket Challenge goes viral — raises $115M for ALS", "Ebola outbreak in West Africa", "Ferguson protests"],
+    tv: ["True Detective season 1 — Matthew McConaughey's monologues", "Fargo TV series", "Orange Is the New Black peak"],
+    tech: ["WhatsApp acquired by Facebook for $19B", "Apple Watch announced", "Snapchat reaches 100M daily users"],
+    sport: ["World Cup Brazil — Germany demolishes Brazil 7-1 on home soil", "LeBron James returns to Cleveland"],
+    fashion: ["Normcore peak", "Birkenstocks finally cool", "Adidas Superstar comeback"],
+  },
+  "2015": {
+    music: ["Uptown Funk – Mark Ronson ft. Bruno Mars", "See You Again – Wiz Khalifa ft. Charlie Puth", "Hello – Adele", "Thinking Out Loud – Ed Sheeran"],
+    events: ["Paris attacks — November 13", "Charlie Hebdo attack", "The Dress debate — blue and black OR white and gold? The internet breaks.", "Refugee crisis in Europe"],
+    tv: ["Game of Thrones — Jon Snow dies (or does he?)", "Making a Murderer on Netflix — true crime era begins", "The Leftovers peak"],
+    tech: ["Apple Watch goes on sale", "Back to the Future Day — October 21st arrives", "Apple Music launches", "Google Photos launches"],
+    sport: ["Leicester City begin unlikely title run", "Novak Djokovic dominates tennis"],
+    fashion: ["Dad shoes ironic revival", "Bomber jackets", "Millennial pink begins"],
+  },
+  "2016": {
+    music: ["Cheap Thrills – Sia", "Work – Rihanna", "One Dance – Drake", "Sorry – Justin Bieber"],
+    events: ["Donald Trump wins US election — shock result", "Brexit vote shocks Europe", "David Bowie and Prince die — devastating double loss for music", "Harambe the gorilla — the meme that defined the year"],
+    tv: ["Stranger Things — instant Netflix phenomenon", "Game of Thrones Battle of the Bastards", "Black Mirror Season 3 on Netflix"],
+    tech: ["Pokémon GO — the whole world goes outside briefly", "Fidget spinners beginning to appear", "TikTok's predecessor Musical.ly peaks"],
+    sport: ["Leicester City WIN the Premier League — greatest sporting shock ever", "Rio Olympics — Simone Biles, Usain Bolt"],
+    fashion: ["Choker necklaces comeback (again)", "Velvet everything", "Off-White brand explodes"],
+  },
+  "2017": {
+    music: ["Shape of You – Ed Sheeran (most streamed song ever at the time)", "Despacito – Luis Fonsi ft. Daddy Yankee", "Rockstar – Post Malone ft. 21 Savage", "HUMBLE – Kendrick Lamar"],
+    events: ["Hurricane Harvey and Irma devastate", "Me Too movement begins", "Las Vegas shooting — deadliest in US history", "Bitcoin reaches $20,000"],
+    tv: ["Game of Thrones season 7 — world discusses every Monday", "Big Little Lies wins everything", "The Handmaid's Tale debuts"],
+    tech: ["iPhone X — no home button, Face ID", "AirPods become lifestyle statement", "NFT concept emerges quietly", "Fortnite launches October 26"],
+    sport: ["Roger Federer returns to win Australian Open", "LeBron vs Warriors — the sequel (again)"],
+    fashion: ["Logomania returns — Gucci, LV everywhere", "Sock trainers", "Puffer jackets"],
+  },
+  "2018": {
+    music: ["God's Plan – Drake", "In My Feelings – Drake", "Sicko Mode – Travis Scott", "Havana – Camila Cabello"],
+    events: ["Parkland school shooting — March For Our Lives", "World Cup Russia — Croatia's fairytale run, France wins", "Meghan and Harry royal wedding", "Avengers: Infinity War — THAT ending"],
+    tv: ["Black Panther — cultural phenomenon beyond cinema", "Queer Eye reboot — everyone's crying", "Homecoming with Julia Roberts"],
+    tech: ["Instagram reaches 1 billion users", "TikTok launches globally (merged with Musical.ly)", "Fortnite consumes the entire world"],
+    sport: ["World Cup Russia — France win with Mbappe", "LeBron James joins LA Lakers"],
+    fashion: ["Streetwear goes luxury — Off-White × Nike", "Clear accessories", "Ugly trainers peak"],
+  },
+  "2019": {
+    music: ["Old Town Road – Lil Nas X (record-breaking run at #1)", "Truth Hurts – Lizzo", "7 Rings – Ariana Grande", "Bad Guy – Billie Eilish"],
+    events: ["Notre Dame Cathedral catches fire", "Amazon rainforest fires", "Area 51 raid planned on Twitter — 2M sign up", "Avengers: Endgame overtakes Avatar as highest-grossing film"],
+    tv: ["Game of Thrones finale — divisive ending", "Chernobyl — haunting perfection", "When They See Us — gut-punch TV"],
+    tech: ["AirPods everywhere — flex culture", "5G networks announced", "TikTok reaches 500M users", "VSCO girls emerge as aesthetic"],
+    sport: ["Liverpool win Champions League — comeback from Barcelona", "Raptors win NBA Championship"],
+    fashion: ["VSCO girl aesthetic — scrunchies, Hydroflasks", "Bike shorts styled up", "Telfar bags emerging"],
+  },
+  "2020": {
+    music: ["Blinding Lights – The Weeknd", "Watermelon Sugar – Harry Styles", "Positions – Ariana Grande", "WAP – Cardi B ft. Megan Thee Stallion"],
+    events: ["COVID-19 pandemic — the world locks down", "George Floyd murder — global Black Lives Matter uprising", "US election — Biden defeats Trump", "Beirut explosion", "Chadwick Boseman dies"],
+    tv: ["Tiger King — the lockdown obsession", "The Queen's Gambit — chess becomes cool", "Normal People — BBC generation-defining"],
+    tech: ["Zoom becomes the world — everyone learns to unmute", "Animal Crossing saves us", "TikTok reaches 2 billion downloads", "GPT-3 announced"],
+    sport: ["Olympics postponed to 2021", "All sport suspends March-June globally", "LeBron James wins Championship in the Bubble"],
+    fashion: ["Loungewear is the only fashion", "Crocs — ironic becomes genuine", "Tie-dye DIY everywhere in lockdown"],
+  },
+  "2021": {
+    music: ["Levitating – Dua Lipa", "Montero (Call Me By Your Name) – Lil Nas X", "drivers license – Olivia Rodrigo", "Stay – The Kid LAROI ft. Justin Bieber"],
+    events: ["January 6 US Capitol attack", "Tokyo Olympics — 1 year late", "COVID vaccines rolled out globally", "NFT craze — Beeple sells art for $69M"],
+    tv: ["Squid Game — 111 million Netflix households in 28 days", "Ted Lasso wins the world's heart", "WandaVision opens Marvel TV era"],
+    tech: ["NFT boom — JPEGs selling for millions", "Clubhouse rises and falls", "Meta announced — Facebook becomes metaverse company", "Elon Musk DOGE tweets"],
+    sport: ["Simone Biles withdraws Tokyo — mental health conversation begins", "Italy win Euros", "Emma Raducanu wins US Open from qualifying"],
+    fashion: ["Y2K aesthetic revival — everything 90s/2000s is back", "Cottagecore", "Barbiecore begins"],
+  },
+  "2022": {
+    music: ["As It Was – Harry Styles", "Anti-Hero – Taylor Swift", "Running Up That Hill – Kate Bush (Stranger Things revival)", "About Damn Time – Lizzo"],
+    events: ["Russia invades Ukraine", "Queen Elizabeth II dies — 96 years, 70-year reign", "World Cup Qatar — Argentina and Messi FINALLY win", "Elon Musk buys Twitter for $44B"],
+    tv: ["House of Dragon — GoT returns", "Dahmer — controversy and 200M views", "The Last of Us in production"],
+    tech: ["ChatGPT launches November 30 — AI goes mainstream overnight", "Twitter acquired and chaos begins", "Stable Diffusion — AI art generation"],
+    sport: ["World Cup Qatar — Messi wins his crown", "Rafael Nadal wins 22nd Grand Slam"],
+    fashion: ["Mob Wife aesthetic begins", "Ballet flats comeback", "Quiet luxury vs maximalism"],
+  },
+};
+
+// Curated era metadata for trending section
+const ERA_DATA = [
+  { decade: "1980s", years: "1980–1989", emoji: "📼", title: "The VHS Decade", desc: "Neon, synth-pop, Rubik's cubes, and the birth of MTV. The decade that couldn't stop working.", color: "rgba(255,100,100,0.15)", searches: "4.2M" },
+  { decade: "1990s", years: "1990–1999", emoji: "💿", title: "The CD Generation", desc: "Grunge, boy bands, dial-up modems, and the internet arriving in bedrooms worldwide.", color: "rgba(74,158,255,0.15)", searches: "7.8M" },
+  { decade: "2000s", years: "2000–2009", emoji: "📱", title: "Y2K Survivors", desc: "MSN Messenger, flip phones, reality TV, and frosted tips. The decade of iconic cringe.", color: "rgba(201,128,58,0.15)", searches: "11.2M" },
+  { decade: "2010s", years: "2010–2019", emoji: "📸", title: "The Instagram Era", desc: "Selfies, viral videos, TikTok being born, and an avalanche of streaming content.", color: "rgba(155,89,182,0.15)", searches: "9.4M" },
+  { decade: "2020s", years: "2020–present", emoji: "🦠", title: "The Weird Years", desc: "Pandemic, NFTs, AI explosion, Taylor Swift's Eras Tour. Reality felt optional.", color: "rgba(46,204,113,0.15)", searches: "6.1M" },
+  { decade: "1970s", years: "1970–1979", emoji: "🪩", title: "Disco & Soul", desc: "Funk, platforms, bell-bottoms, Watergate, and the last decade before everything became digital.", color: "rgba(241,196,15,0.15)", searches: "2.9M" },
+];
+
+// ─── NEURAL CANVAS ENGINE ───────────────────────────────────
+function initNeuralCanvas() {
+  const canvas = document.getElementById('neural-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let connections = [];
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', () => { resize(); createParticles(); });
+
+  function createParticles() {
+    const count = Math.floor((window.innerWidth * window.innerHeight) / 14000);
+    particles = Array.from({ length: count }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 1.5 + 0.5,
+      opacity: Math.random() * 0.5 + 0.1,
+    }));
+  }
+  createParticles();
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Update positions
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+    });
+
+    // Draw connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 130) {
+          const alpha = (1 - dist / 130) * 0.2;
+          ctx.strokeStyle = `rgba(201, 128, 58, ${alpha})`;
+          ctx.lineWidth = 0.5;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Draw particles
+    particles.forEach(p => {
+      ctx.fillStyle = `rgba(232, 220, 200, ${p.opacity})`;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+// ─── STAT COUNTER ANIMATION ─────────────────────────────────
+function animateStats() {
+  document.querySelectorAll('.stat-num').forEach(el => {
+    const target = parseInt(el.dataset.target);
+    let current = 0;
+    const duration = 2000;
+    const start = performance.now();
+    function update(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      current = Math.floor(eased * target);
+      if (target >= 1000000000) {
+        el.textContent = (current / 1000000000).toFixed(1) + 'B+';
+      } else if (target >= 1000000) {
+        el.textContent = (current / 1000000).toFixed(0) + 'M+';
+      } else {
+        el.textContent = current.toLocaleString() + '+';
+      }
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  });
+}
+
+// ─── SECTION NAVIGATION ─────────────────────────────────────
+function showSection(name) {
+  const sectionIds = {
+    home: 'section-home',
+    profile: 'section-profile',
+    trending: 'section-trending',
+    about: 'section-about',
+  };
+  const resultsSection = document.getElementById('results-section');
+  resultsSection.style.display = 'none';
+
+  Object.entries(sectionIds).forEach(([key, id]) => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = key === name ? 'block' : 'none';
+  });
+
+  if (name === 'trending') populateTrending();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── SEARCH ENGINE ──────────────────────────────────────────
+function triggerSearch() {
+  const query = document.getElementById('memory-search').value.trim();
+  if (!query) return;
+  quickSearch(query);
+}
+
+function quickSearch(query) {
+  document.getElementById('memory-search').value = query;
+
+  // Trigger pulse rings
+  const rings = document.getElementById('pulse-rings');
+  rings.classList.remove('active');
+  void rings.offsetWidth; // reflow
+  rings.classList.add('active');
+
+  // Show results section
+  Object.keys({ home:1, profile:1, trending:1, about:1 }).forEach(key => {
+    const el = document.getElementById(`section-${key}`);
+    if (el) el.style.display = 'none';
+  });
+
+  const resultsSection = document.getElementById('results-section');
+  resultsSection.style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  document.getElementById('crumb-query').textContent = query.toUpperCase();
+  document.getElementById('results-title').textContent = `Memory Bank: "${query}"`;
+  document.getElementById('results-subtitle').textContent = 'Agents are excavating the archive...';
+
+  // Reset state
+  document.getElementById('memory-loading').style.display = 'flex';
+  document.getElementById('memory-grid').style.display = 'none';
+  resetAgentBar();
+
+  // Run agent sequence
+  runSearchAgents(query);
+}
+
+function resetAgentBar() {
+  ['agent-1','agent-2','agent-3','agent-4'].forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.remove('active', 'done');
+    el.querySelector('.agent-state').textContent = 'Idle';
+  });
+}
+
+function activateAgent(id, state) {
+  const el = document.getElementById(id);
+  el.classList.add('active');
+  el.querySelector('.agent-state').textContent = state;
+}
+
+function doneAgent(id) {
+  const el = document.getElementById(id);
+  el.classList.remove('active');
+  el.classList.add('done');
+  el.querySelector('.agent-state').textContent = '✓ Done';
+}
+
+async function runSearchAgents(query) {
+  const loading = document.getElementById('memory-loading');
+
+  // Parse years from query
+  const yearMatches = query.match(/\b(19\d\d|20[0-2]\d)\b/g) || [];
+  const decadeMatch = query.match(/\b(\d0)s\b/i);
+  let years = yearMatches.map(Number);
+
+  if (years.length === 0 && decadeMatch) {
+    const base = parseInt(decadeMatch[1]);
+    const century = base < 30 ? 2000 : 1900;
+    years = Array.from({ length: 10 }, (_, i) => century + base + i);
+  }
+  if (years.length === 0) {
+    years = [1999, 2000, 2001, 2002, 2003];
+  }
+
+  // Use AI to enrich the search
+  const loadTextEl = document.getElementById('loading-text');
+
+  // Agent 1
+  activateAgent('agent-1', 'Scanning...');
+  loadTextEl.textContent = 'Search agent mapping your query...';
+  await delay(800);
+  doneAgent('agent-1');
+
+  activateAgent('agent-2', 'Classifying...');
+  loadTextEl.textContent = 'Era classifier bracketing time periods...';
+  await delay(900);
+  doneAgent('agent-2');
+
+  activateAgent('agent-3', 'Excavating...');
+  loadTextEl.textContent = 'Net memory agent pulling archive data...';
+
+  // Call Claude to enrich memory data
+  let aiMemories = [];
+  try {
+    aiMemories = await fetchAIMemories(query, years);
+  } catch (e) {
+    console.warn('AI enrichment failed, using local data', e);
+  }
+
+  await delay(600);
+  doneAgent('agent-3');
+
+  activateAgent('agent-4', 'Curating...');
+  loadTextEl.textContent = 'Emotion curator assembling final reconstruction...';
+  await delay(700);
+  doneAgent('agent-4');
+
+  await delay(300);
+
+  // Build memory cards from local DB + AI
+  const allCards = buildMemoryCards(years, query, aiMemories);
+  renderMemoryGrid(allCards, query, years);
+
+  loading.style.display = 'none';
+  const grid = document.getElementById('memory-grid');
+  grid.style.display = 'grid';
+  document.getElementById('results-subtitle').textContent = `${allCards.length} memory fragments recovered • ${years.join(', ')}`;
+}
+
+async function fetchAIMemories(query, years) {
+  const yearsStr = years.slice(0, 5).join(', ');
+  const prompt = `You are MNEMOS, a memory bank AI. A user searched: "${query}". The years in scope are: ${yearsStr}.
+
+Generate 6 vivid, emotionally resonant memory fragments from this era. Each fragment should bring back genuine nostalgia — sounds, smells, textures, cultural moments, school experiences, social dynamics.
+
+Respond with JSON ONLY. Array of 6 objects, each with:
+- type: one of "music", "event", "tv", "tech", "fashion", "sport"
+- year: a specific year from the range
+- title: short evocative title (max 8 words)
+- body: 2-sentence vivid memory fragment (emotionally resonant, specific, nostalgic)
+- tags: array of 2-3 short tag strings
+
+No markdown. Just valid JSON array.`;
+
+  const response = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-6",
+      max_tokens: 1000,
+      messages: [{ role: "user", content: prompt }]
+    })
+  });
+
+  const data = await response.json();
+  const text = data.content.map(c => c.text || '').join('');
+  const clean = text.replace(/```json|```/g, '').trim();
+  return JSON.parse(clean);
+}
+
+function buildMemoryCards(years, query, aiCards = []) {
+  const cards = [];
+
+  // Pull from local DB
+  years.slice(0, 6).forEach(year => {
+    const yearKey = String(year);
+    const data = MEMORY_DATABASE[yearKey];
+    if (!data) return;
+
+    const categories = ['music', 'events', 'tv', 'tech', 'sport', 'fashion'];
+    categories.forEach(cat => {
+      if (!data[cat] || data[cat].length === 0) return;
+      const item = data[cat][Math.floor(Math.random() * data[cat].length)];
+      cards.push({
+        type: cat === 'events' ? 'event' : cat,
+        year,
+        title: item,
+        body: generateCardBody(cat, year, item),
+        tags: generateTags(cat, year),
+        fromDB: true,
+      });
+    });
+  });
+
+  // Add AI-enriched cards
+  aiCards.forEach(card => {
+    cards.push({ ...card, fromAI: true });
+  });
+
+  // Shuffle and limit
+  return shuffleArray(cards).slice(0, 24);
+}
+
+function generateCardBody(cat, year, item) {
+  const templates = {
+    music: [
+      `This track defined every speaker and every gathering in ${year}. You heard it everywhere — shops, cars, radios, school hallways.`,
+      `The song that made ${year} feel like a specific texture you could reach out and touch. It still sends you somewhere.`,
+    ],
+    events: [
+      `This was one of those moments in ${year} where everyone remembered where they were when they heard about it.`,
+      `${year} changed because of this. It was in every newspaper, on every screen, in every conversation.`,
+    ],
+    tv: [
+      `In ${year}, this was what everyone was talking about the next day. The plot twists, the characters — essential.`,
+      `You remember exactly where you watched this in ${year}. Who you were with. What you were eating.`,
+    ],
+    tech: [
+      `In ${year}, this piece of technology felt like science fiction becoming real. It changed how you understood the future.`,
+      `This was the gadget or platform of ${year} that everyone either had or desperately wanted.`,
+    ],
+    sport: [
+      `${year} was when this moment happened and the entire nation (or world) was watching, screaming, or crying.`,
+      `Sports created this unforgettable scene in ${year}. Decades later, people still quote it, replay it, feel it.`,
+    ],
+    fashion: [
+      `In ${year}, you either wore this or you definitely knew someone who did. It was inescapable.`,
+      `This defined the visual language of ${year}. Looking at old photos from this era tells you immediately.`,
+    ],
+  };
+  const options = templates[cat] || templates.events;
+  return options[Math.floor(Math.random() * options.length)];
+}
+
+function generateTags(cat, year) {
+  const decade = Math.floor(year / 10) * 10;
+  const decadeTags = { 1980: '80s', 1990: '90s', 2000: '2000s', 2010: '2010s', 2020: '2020s' };
+  return [String(year), decadeTags[decade] || `${decade}s`, cat];
+}
+
+function renderMemoryGrid(cards, query, years) {
+  const grid = document.getElementById('memory-grid');
+  grid.innerHTML = '';
+
+  cards.forEach((card, i) => {
+    const cardEl = document.createElement('div');
+    cardEl.className = `memory-card type-${card.type}`;
+    cardEl.style.animationDelay = `${i * 0.04}s`;
+    cardEl.innerHTML = `
+      <div class="card-era-tag">${card.type.toUpperCase()}</div>
+      <div class="card-year">${card.year}</div>
+      <div class="card-title">${card.title}</div>
+      <div class="card-body">${card.body}</div>
+      <div class="card-tags">
+        ${(card.tags || []).map(t => `<span class="card-tag">${t}</span>`).join('')}
+      </div>
+    `;
+    grid.appendChild(cardEl);
+  });
+}
+
+// ─── PROFILE RECONSTRUCTION ──────────────────────────────────
+function nextStep(step) {
+  document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById(`step-${step}`);
+  if (target) {
+    target.classList.add('active');
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+async function startReconstruction() {
+  const name = document.getElementById('p-name').value.trim() || 'You';
+  const birth = document.getElementById('p-birth').value;
+  const country = document.getElementById('p-country').value.trim();
+  const city = document.getElementById('p-city').value.trim();
+
+  nextStep(4);
+
+  const logs = [
+    `[INIT] Profile agent initialized for ${name}`,
+    `[SCAN] Birth year ${birth} detected — calculating memory brackets`,
+    `[GEO] Location anchor: ${city}, ${country}`,
+    `[ERA] Primary bracket: ${parseInt(birth)+6}–${parseInt(birth)+14}`,
+    `[ERA] Secondary bracket: ${parseInt(birth)+14}–${parseInt(birth)+18}`,
+    `[AGENT-2] Era bracket agent — building timeline scaffolding`,
+    `[AGENT-3] Net memory agent — connecting to global archive`,
+    `[ARCHIVE] Pulling Billboard charts, Wikipedia events, school databases`,
+    `[ARCHIVE] Filtering by geographic relevance: ${country}`,
+    `[MUSIC] Extracting viral songs from your years...`,
+    `[EVENTS] Cross-referencing world events with your life brackets`,
+    `[AGENT-4] Emotion curator — analyzing memory resonance`,
+    `[FINAL] Memory reconstruction ready`,
+  ];
+
+  const logFeed = document.getElementById('log-feed');
+  logFeed.innerHTML = '';
+
+  const agents = ['pipe-1','pipe-2','pipe-3','pipe-4'];
+  const statuses = [
+    ['Verifying identity anchors', 'Confirmed ✓'],
+    ['Building era brackets', 'Classified ✓'],
+    ['Excavating net archive', 'Extracted ✓'],
+    ['Curating emotional context', 'Ready ✓'],
+  ];
+
+  for (let i = 0; i < agents.length; i++) {
+    document.getElementById(agents[i]).classList.add('active');
+    document.getElementById(`${agents[i]}-status`).textContent = statuses[i][0];
+
+    // Animate progress bar
+    const fill = document.getElementById(`${agents[i]}-fill`);
+    let pct = 0;
+    const fillInterval = setInterval(() => {
+      pct = Math.min(pct + 4, 100);
+      fill.style.width = pct + '%';
+      if (pct >= 100) clearInterval(fillInterval);
+    }, 30);
+
+    // Show relevant logs
+    const logsPerAgent = Math.ceil(logs.length / 4);
+    for (let l = i * logsPerAgent; l < Math.min((i + 1) * logsPerAgent, logs.length); l++) {
+      await delay(220);
+      const line = document.createElement('div');
+      line.className = 'log-line';
+      const now = new Date();
+      line.innerHTML = `<span class="log-time">${now.toTimeString().slice(0,8)}</span><span class="log-agent">[MNEMOS]</span>${logs[l]}`;
+      logFeed.appendChild(line);
+      logFeed.scrollTop = logFeed.scrollHeight;
+    }
+
+    await delay(700);
+    document.getElementById(agents[i]).classList.remove('active');
+    document.getElementById(agents[i]).classList.add('done');
+    document.getElementById(`${agents[i]}-status`).textContent = statuses[i][1];
+  }
+
+  await delay(600);
+
+  // Build personal timeline
+  const birthYear = parseInt(birth) || 1995;
+  const primaryYears = range(birthYear + 6, birthYear + 13);
+  const secondaryYears = range(birthYear + 13, birthYear + 18);
+  const uniYears = range(birthYear + 18, birthYear + 22);
+
+  const timeline = await buildPersonalTimeline(name, birthYear, country, primaryYears, secondaryYears, uniYears);
+  document.getElementById('personal-timeline').innerHTML = timeline;
+
+  nextStep(5);
+}
+
+async function buildPersonalTimeline(name, birth, country, primaryYears, secondaryYears, uniYears) {
+  // Try AI-powered personalization
+  let aiContext = '';
+  try {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1000,
+        messages: [{
+          role: "user",
+          content: `You are MNEMOS, the world's memory bank. Generate a personal memory reconstruction intro for someone named ${name}, born in ${birth}, from ${country}. Write 2 heartfelt, nostalgic sentences about what it means to have grown up in that specific era and place. Pure text, no formatting.`
+        }]
+      })
+    });
+    const data = await response.json();
+    aiContext = data.content.map(c => c.text || '').join('').trim();
+  } catch(e) {
+    aiContext = `Growing up in ${birth} in ${country} means you lived through some of the most transformative years in recent memory. MNEMOS has reached into the archive to reconstruct the world as you experienced it.`;
+  }
+
+  function bracketCards(years) {
+    return years.slice(0, 4).map(year => {
+      const data = MEMORY_DATABASE[String(year)];
+      if (!data) return '';
+      const musicItem = data.music[0];
+      const eventItem = data.events[0];
+      return `
+        <div class="memory-card type-music" style="--card-accent:#9B59B6">
+          <div class="card-era-tag">MUSIC ${year}</div>
+          <div class="card-year">${year}</div>
+          <div class="card-title">${musicItem}</div>
+          <div class="card-body">This was the soundtrack to ${year}. If you were there, you know exactly where you first heard it.</div>
+          <div class="card-tags"><span class="card-tag">${year}</span><span class="card-tag">music</span></div>
+        </div>
+        <div class="memory-card type-event" style="--card-accent:#4A9EFF">
+          <div class="card-era-tag">WORLD EVENT ${year}</div>
+          <div class="card-year">${year}</div>
+          <div class="card-title">${eventItem}</div>
+          <div class="card-body">Everyone in ${year} knew about this. It was inescapable — the topic of every conversation.</div>
+          <div class="card-tags"><span class="card-tag">${year}</span><span class="card-tag">event</span></div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  return `
+    <div class="timeline-header">
+      <div class="timeline-user-name">Memory Reconstruction for ${name}</div>
+      <div class="timeline-title">Your Life in Archive</div>
+      <div class="timeline-subtitle">${aiContext}</div>
+    </div>
+
+    <div class="timeline-bracket">
+      <div class="bracket-header">
+        <div class="bracket-line"></div>
+        <div class="bracket-label-wrap">
+          <div class="bracket-emoji">📚</div>
+          <div>
+            <div class="bracket-period-title">Primary School Years</div>
+            <div class="bracket-years-label">${primaryYears[0]} – ${primaryYears[primaryYears.length-1]}</div>
+          </div>
+        </div>
+        <div class="bracket-line"></div>
+      </div>
+      <div class="bracket-memories-grid">
+        ${bracketCards(primaryYears)}
+      </div>
+    </div>
+
+    <div class="timeline-bracket">
+      <div class="bracket-header">
+        <div class="bracket-line"></div>
+        <div class="bracket-label-wrap">
+          <div class="bracket-emoji">🎒</div>
+          <div>
+            <div class="bracket-period-title">Secondary School Years</div>
+            <div class="bracket-years-label">${secondaryYears[0]} – ${secondaryYears[secondaryYears.length-1]}</div>
+          </div>
+        </div>
+        <div class="bracket-line"></div>
+      </div>
+      <div class="bracket-memories-grid">
+        ${bracketCards(secondaryYears)}
+      </div>
+    </div>
+
+    <div class="timeline-bracket">
+      <div class="bracket-header">
+        <div class="bracket-line"></div>
+        <div class="bracket-label-wrap">
+          <div class="bracket-emoji">🎓</div>
+          <div>
+            <div class="bracket-period-title">University / Young Adult Years</div>
+            <div class="bracket-years-label">${uniYears[0]} – ${uniYears[uniYears.length-1]}</div>
+          </div>
+        </div>
+        <div class="bracket-line"></div>
+      </div>
+      <div class="bracket-memories-grid">
+        ${bracketCards(uniYears)}
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:48px; padding: 32px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius:16px;">
+      <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--ghost);margin-bottom:12px;">
+        Memory Reconstruction Complete
+      </div>
+      <div style="font-size:14px;color:var(--parchment-dim);margin-bottom:24px;line-height:1.6;max-width:500px;margin-left:auto;margin-right:auto;">
+        This is your personal archive, built from the intersection of global history and your life brackets. The internet remembered so you don't have to search alone.
+      </div>
+      <button onclick="showSection('home')" style="background:var(--amber);border:none;border-radius:8px;padding:12px 24px;font-family:var(--font-body);font-size:14px;font-weight:600;color:var(--obsidian);cursor:pointer;">
+        Explore the Full Archive →
+      </button>
+    </div>
+  `;
+}
+
+// ─── TRENDING SECTION ────────────────────────────────────────
+function populateTrending() {
+  const grid = document.getElementById('era-grid');
+  if (grid.children.length > 0) return; // already populated
+
+  ERA_DATA.forEach(era => {
+    const card = document.createElement('div');
+    card.className = 'era-card';
+    card.style.setProperty('--era-color', era.color.replace('0.15', '0.4'));
+    card.style.background = `linear-gradient(135deg, ${era.color}, rgba(255,255,255,0.02))`;
+    card.innerHTML = `
+      <div class="era-decade">${era.decade.replace('s', '')}</div>
+      <div class="era-emoji">${era.emoji}</div>
+      <div class="era-title">${era.decade} — ${era.title}</div>
+      <div class="era-desc">${era.desc}</div>
+      <div class="era-count">${era.searches} memory searches</div>
+    `;
+    card.addEventListener('click', () => quickSearch(era.years));
+    grid.appendChild(card);
+  });
+}
+
+// ─── BACK TO HOME ────────────────────────────────────────────
+function backToHome() {
+  document.getElementById('results-section').style.display = 'none';
+  document.getElementById('section-home').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── UPLOAD MODAL ────────────────────────────────────────────
+function openUpload() {
+  document.getElementById('upload-modal').style.display = 'flex';
+}
+
+function closeUpload() {
+  document.getElementById('upload-modal').style.display = 'none';
+}
+
+document.getElementById('upload-zone').addEventListener('click', () => {
+  document.getElementById('file-input').click();
+});
+
+document.getElementById('upload-zone').addEventListener('dragover', e => {
+  e.preventDefault();
+  document.getElementById('upload-zone').style.borderColor = 'var(--amber)';
+});
+
+document.getElementById('upload-zone').addEventListener('drop', e => {
+  e.preventDefault();
+  handleFileUpload({ target: { files: e.dataTransfer.files }});
+});
+
+function handleFileUpload(event) {
+  const files = Array.from(event.target.files);
+  const preview = document.getElementById('upload-preview');
+  preview.innerHTML = '';
+  files.forEach(file => {
+    const item = document.createElement('div');
+    item.className = 'preview-item';
+    const icon = file.type.startsWith('image/') ? '🖼️' : file.type.includes('pdf') ? '📄' : '📎';
+    item.innerHTML = `${icon} ${file.name} <span style="opacity:0.5">${(file.size/1024).toFixed(0)}KB</span>`;
+    preview.appendChild(item);
+  });
+}
+
+// ─── SEARCH ON ENTER ─────────────────────────────────────────
+document.getElementById('memory-search').addEventListener('keydown', e => {
+  if (e.key === 'Enter') triggerSearch();
+});
+
+// ─── HELPERS ─────────────────────────────────────────────────
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function range(start, end) {
+  return Array.from({ length: end - start }, (_, i) => start + i);
+}
+
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ─── SCROLL NAV EFFECT ───────────────────────────────────────
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('main-nav');
+  nav.style.boxShadow = window.scrollY > 20
+    ? '0 4px 30px rgba(0,0,0,0.5)'
+    : 'none';
+});
+
+// ─── INIT ─────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  initNeuralCanvas();
+  animateStats();
+  showSection('home');
+});
+
+</script>
+</body>
+</html>
