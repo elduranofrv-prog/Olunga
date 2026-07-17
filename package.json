@@ -1,0 +1,22 @@
+{
+  "name": "olunga-daraja-stk-push",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Production-minded M-Pesa Daraja Sandbox STK Push integration",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0"
+  }
+}

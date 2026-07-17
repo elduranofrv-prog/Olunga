@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Secure M-Pesa sandbox payment form">
+  <title>Olunga Payments | M-Pesa</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="card">
+    <p class="eyebrow">M-PESA SANDBOX</p>
+    <h1>Make a payment</h1>
+    <p class="intro">Enter your Kenyan mobile number. An M-Pesa prompt will be sent to your phone.</p>
+    <form id="payment-form" novalidate>
+      <label for="phoneNumber">Phone number</label>
+      <input id="phoneNumber" name="phoneNumber" type="tel" inputmode="tel" autocomplete="tel" placeholder="0712 345 678" maxlength="16" required>
+      <small>Accepted: 0712345678, 254712345678, or +254712345678</small>
+      <label for="amount">Amount (KES)</label>
+      <input id="amount" name="amount" type="number" inputmode="numeric" min="1" max="150000" step="1" placeholder="100" required>
+      <button type="submit">Send M-Pesa prompt</button>
+    </form>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+    <p class="notice">Sandbox only. Do not enter real payment details.</p>
+  </main>
+  <script src="/app.js" defer></script>
+</body>
+</html>
