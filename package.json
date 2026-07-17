@@ -1,0 +1,13 @@
+{
+  "name": "readme-forge",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": ["frontend", "backend"],
+  "scripts": {
+    "build": "npm --workspace frontend run build",
+    "start": "npm --workspace backend start",
+    "dev:frontend": "npm --workspace frontend run dev",
+    "dev:backend": "npm --workspace backend run dev"
+  },
+  "engines": { "node": ">=20" }
+}
