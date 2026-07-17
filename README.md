@@ -1,153 +1,133 @@
-# Olunga M-Pesa STK Push (Daraja Sandbox)
+# README Forge
 
-A Node.js/Express implementation of Safaricom Daraja **Sandbox** Lipa na M-Pesa Online (STK Push). It accepts a Kenyan phone number and a whole-KES amount, requests a cached OAuth token, sends the STK prompt, and receives the asynchronous confirmation callback.
+README Forge is a stateless AI developer tool that turns a public GitHub repository URL into a professional Markdown README draft. The React/Vite interface fetches repository context through an Express API, then displays Claude's response as it streams in—with source Markdown and a live rendered preview.
 
-> **Sandbox only:** this project deliberately uses Safaricom's sandbox API URLs. It is not configured for real-money production processing.
+## What it does
 
-## Features
+- Accepts a public `github.com/owner/repository` URL
+- Uses the unauthenticated GitHub REST API to retrieve:
+  - repository metadata and the recursive file tree
+  - root `package.json`, where present
+  - up to 12 top-level `.js`, `.jsx`, `.ts`, `.tsx`, or `.py` files
+- Sends a bounded, structured context to Anthropic's `claude-sonnet-4-6`
+- Streams Markdown response chunks from the backend to the browser
+- Provides live Markdown preview, Copy, and Download `README.md` controls
+- Uses no database and stores no repository content
 
-- Cached Daraja OAuth access token with early refresh
-- `POST /pay` with strict Kenyan-number and KES amount validation
-- Correct Daraja STK password/timestamp construction
-- Timeout-bound upstream requests, safe client errors, request IDs, Helmet, JSON size limits, and payment rate limiting
-- `POST /callback` that logs the unmodified Daraja callback payload and acknowledges it
-- Responsive zero-dependency frontend
-- Railway deployment configuration and health check
-
-## Project tree
+## Project structure
 
 ```text
 .
-├── .env.example                 # required runtime variable names (safe to commit)
-├── .gitignore
-├── package.json
-├── railway.json                 # Railway/Nixpacks deployment settings
-├── README.md
-├── docs/
-│   └── screenshots/
-│       └── .gitkeep             # add screenshots here
-├── public/
-│   ├── app.js                   # form submission/status behavior
-│   ├── index.html               # payment form
-│   └── styles.css
-├── src/
-│   ├── config.js                # environment validation
-│   ├── daraja.js                # OAuth + STK Push client
-│   ├── server.js                # Express routes/middleware
-│   └── validation.js            # reusable input validation
-└── test/
-    └── validation.test.js
+├── backend/
+│   ├── package.json
+│   └── src/
+│       ├── claude.js       # Anthropic streaming client
+│       ├── github.js       # public GitHub REST API client
+│       └── server.js       # Express API
+├── frontend/
+│   ├── .env.example
+│   ├── index.html
+│   ├── package.json
+│   └── src/
+│       ├── main.jsx        # React application
+│       └── styles.css
+├── .env.example            # backend environment settings
+├── package.json            # npm workspaces root
+├── railway.json            # Railway service configuration
+└── vercel.json             # Vercel static frontend configuration
 ```
 
-## Prerequisites
+## Requirements
 
-- Node.js 20+
-- A free Safaricom Daraja developer account and Sandbox application: <https://developer.safaricom.co.ke/>
-- A public **HTTPS** URL for callbacks. Railway supplies one after deployment.
+- Node.js 20 or newer
+- An Anthropic API key with access to `claude-sonnet-4-6`
+- Public GitHub repositories only. The demo intentionally makes unauthenticated GitHub calls, which are limited to 60 requests/hour per IP by GitHub.
 
-## Local setup
+## Local development
 
-1. Install packages:
+Install workspace dependencies from the repository root:
 
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
-2. Create your private environment file and fill it in:
+Create backend environment settings:
 
-   ```bash
-   cp .env.example .env
-   ```
+```bash
+cp .env.example .env
+```
 
-3. In the Daraja portal's Sandbox app, copy the **Consumer Key**, **Consumer Secret**, sandbox Business Short Code, and **Lipa Na M-Pesa Online Passkey** into `.env`. Set `DARAJA_CALLBACK_URL` to your deployed public endpoint, for example:
+Set `ANTHROPIC_API_KEY` in `.env`. Keep this key server-side; do not put it in the Vite frontend environment.
 
-   ```env
-   DARAJA_CALLBACK_URL=https://your-service.up.railway.app/callback
-   ```
+Create frontend settings:
 
-   `localhost` cannot receive a callback from Daraja. During local development deploy first, or use a secure public tunnel whose URL is set in `.env`.
+```bash
+cp frontend/.env.example frontend/.env
+```
 
-4. Start the server:
+Start the API in one terminal:
 
-   ```bash
-   npm run dev
-   ```
+```bash
+npm run dev:backend
+```
 
-5. Visit <http://localhost:3000>, submit a Sandbox test phone number and a whole-KES amount, then complete the simulated STK prompt using the test details Daraja documents for your app.
+Start Vite in a second terminal:
 
-6. Run tests:
+```bash
+npm run dev:frontend
+```
 
-   ```bash
-   npm test
-   ```
-
-## Environment variables
-
-All required names and safe example values are in [`.env.example`](.env.example). Never commit `.env` or expose its consumer secret/passkey in browser code.
-
-| Variable | Required | Purpose |
-| --- | --- | --- |
-| `NODE_ENV` | no | `development` or `production` |
-| `PORT` | no | HTTP port; Railway injects this automatically |
-| `ALLOWED_ORIGINS` | no | Comma-separated allowed cross-origin frontend URLs; same-origin needs none |
-| `DARAJA_CONSUMER_KEY` | yes | Daraja Sandbox app consumer key |
-| `DARAJA_CONSUMER_SECRET` | yes | Daraja Sandbox app consumer secret |
-| `DARAJA_BUSINESS_SHORT_CODE` | yes | Sandbox paybill/shortcode |
-| `DARAJA_PASSKEY` | yes | Lipa Na M-Pesa Online passkey |
-| `DARAJA_CALLBACK_URL` | yes | Public HTTPS callback URL ending in `/callback` |
-| `DARAJA_ACCOUNT_REFERENCE` | no | Short transaction reference, defaults to `OLUNGA` |
-| `DARAJA_TRANSACTION_DESC` | no | Short transaction description, defaults to `Payment` |
-| `DARAJA_OAUTH_URL` | no | Sandbox OAuth URL override |
-| `DARAJA_STK_PUSH_URL` | no | Sandbox STK endpoint override |
+Open the URL shown by Vite (normally `http://localhost:5173`).
 
 ## API
 
-### `POST /pay`
+### `GET /repo-info?url=<github-url>`
 
-Request:
+Fetches a normalized repository context. It only supports public standard GitHub repository URLs. GitHub response timeouts, large trees, and files larger than 45 KB are guarded to keep the demo responsive.
+
+### `POST /generate`
+
+Accepts:
 
 ```json
-{ "phoneNumber": "0712345678", "amount": 100 }
+{ "context": { "repository": {}, "tree": [], "keyFiles": [] } }
 ```
 
-Phone input may be `07…`, `01…`, `254…`, or `+254…`; it is normalized to Daraja's `2547XXXXXXXX`/`2541XXXXXXXX` format. Amount is limited to an integer from 1 to 150,000 KES. An accepted response (`202`) means Daraja accepted the prompt request—not that funds were paid.
-
-### `POST /callback`
-
-Daraja posts the final STK result here. The service logs the received JSON payload with the `daraja_stk_callback` event and returns HTTP 200. Watch Railway deployment logs to inspect it.
-
-**Important:** callbacks are asynchronous, can be retried, and should not be treated as trusted payment completion solely because they arrive. Before a real production rollout, persist an order and `CheckoutRequestID`, make callback processing idempotent, reconcile the callback with that order (and ideally Daraja's query/reconciliation process), and use a durable database/queue. This sandbox starter intentionally has no paid database dependency.
+Returns a chunked `text/markdown` response. The endpoint asks Claude to output Markdown only and explicitly instructs it not to invent facts unsupported by the repository context.
 
 ### `GET /health`
 
-Returns `{"status":"ok"}` and is used by Railway health checks.
+Returns `{"status":"ok"}` for Railway health checks.
 
-## Deploying on Railway (free-tier-only setup)
+## Deployment
 
-1. Push this repository to GitHub and create a Railway project from it.
-2. Railway detects `package.json` and uses `npm start`; `railway.json` configures `/health`.
-3. Add every required `DARAJA_*` variable from `.env.example` in Railway's **Variables** panel. Do not upload `.env`.
-4. Generate a Railway public domain and set `DARAJA_CALLBACK_URL` exactly to `https://<your-domain>/callback`.
-5. Redeploy after changing the callback variable. Open the generated domain and test with Daraja Sandbox values.
+### Backend: Railway
 
-Railway plans, trial allowances, and domain availability can change. Select only a currently available free/trial offering, monitor usage, and do not add paid add-ons. Safaricom Daraja Sandbox is used here; no paid API is required.
+1. Create a Railway project from this GitHub repository.
+2. Railway reads `railway.json` and starts the root workspace command (`npm start`).
+3. Set `ANTHROPIC_API_KEY` in Railway Variables.
+4. Set `NODE_ENV=production`.
+5. After deploying the frontend, set `ALLOWED_ORIGINS` to its full Vercel origin, such as `https://readme-forge.vercel.app`. Multiple origins can be comma-separated.
+6. Generate a Railway public domain and copy it for the frontend configuration.
 
-## Screenshot placeholders
+Use only Railway's available free/trial allowance and monitor its current limits; plan availability may change.
 
-Add captured screenshots after running the app:
+### Frontend: Vercel
 
-- `docs/screenshots/payment-form.png` — empty payment form
-- `docs/screenshots/stk-prompt-sent.png` — successful prompt submission message
-- `docs/screenshots/railway-callback-log.png` — redacted callback log
+1. Import the same repository into Vercel.
+2. Vercel uses `vercel.json` to run the root build and publish `frontend/dist`.
+3. Add `VITE_API_BASE_URL` with the Railway API public URL, e.g. `https://readme-forge-api.up.railway.app` — no trailing slash.
+4. Deploy, then add the resulting Vercel URL to Railway's `ALLOWED_ORIGINS` and redeploy the backend if necessary.
 
-```md
-![Payment form](docs/screenshots/payment-form.png)
-![STK Push sent](docs/screenshots/stk-prompt-sent.png)
-![Callback log](docs/screenshots/railway-callback-log.png)
-```
+Vercel environment values prefixed with `VITE_` are bundled into client code. Only the API URL belongs there; never expose `ANTHROPIC_API_KEY`.
 
-Do not include phone numbers, access tokens, passkeys, or full personally identifiable callback payloads in screenshots.
+## Security and limitations
 
-## Ownership
+- This is a demo for public repositories. It does not support GitHub authentication or private repositories.
+- Server-side rate limiting, strict CORS, request size limits, security headers, GitHub/Claude timeouts, and context/file-size caps are included.
+- Generated text is a draft. Review it for correctness, security claims, licensing, and commands before publishing.
+- The backend has an Anthropic API cost associated with its API key. GitHub REST requests are deliberately unauthenticated as requested.
 
-All rights onwards are given to **Olungas Lunga Consty, the Shadow Developer**.
+## License
+
+No license has been selected. Add a license file before distributing this project.
